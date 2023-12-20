@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   const CustomAppBar({
-  
     required this.title,
   });
 
@@ -16,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Text(
-          'HamroPasal',
+          title,
           style: TextStyle(
               color: Colors.white,
               fontSize: 24,

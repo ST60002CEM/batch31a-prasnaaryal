@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hamropasalmobile/screens/home/home_screen.dart';
+import 'package:hamropasalmobile/screens/screens.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -10,6 +11,8 @@ class AppRouter {
         return HomeScreen.route();
       case HomeScreen.routeName:
         return HomeScreen.route();
+      case CartScreen.routeName:
+        return CartScreen.route();
 
       default:
         return _errorRoute();
