@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hamropasalmobile/widgets/custom_appbar.dart';
-import 'package:hamropasalmobile/widgets/custom_navbar.dart';
+import 'package:hamropasalmobile/screens/screens.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,16 +16,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(title: 'HamroPasal'),
-      bottomNavigationBar: CustomNavBar(),
     );
   }
 }
