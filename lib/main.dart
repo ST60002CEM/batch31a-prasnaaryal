@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamropasalmobile/config/app_router.dart';
 import 'package:hamropasalmobile/screens/screens.dart';
 
 void main() {
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }
