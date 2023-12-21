@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
+import 'package:hamropasalmobile/widgets/chip_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,6 +50,33 @@ class _HomePageState extends State<HomePage> {
                 // Ads banner section
                 AdsBannerWidget(),
                 // Chip section
+                SizedBox(
+                  height: 80,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    children: const [
+                      ChipWidget(
+                        chipLabel: 'All',
+                      ),
+                      ChipWidget(
+                        chipLabel: 'Computers',
+                      ),
+                      ChipWidget(
+                        chipLabel: 'Headsets',
+                      ),
+                      ChipWidget(
+                        chipLabel: 'Accessories',
+                      ),
+                      ChipWidget(
+                        chipLabel: 'Printing',
+                      ),
+                      ChipWidget(
+                        chipLabel: 'Gamers',
+                      )
+                    ],
+                  ),
+                )
                 // Hot Sales section
                 // Featured section
               ],
