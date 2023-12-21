@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hamropasalmobile/config/app_router.dart';
 import 'package:hamropasalmobile/screens/screens.dart';
 
+import 'config/theme.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'HamroPasal',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: theme(),
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: HomeScreen.routeName,
     );
