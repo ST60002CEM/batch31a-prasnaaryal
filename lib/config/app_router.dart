@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hamropasalmobile/screens/home/home_screen.dart';
 import 'package:hamropasalmobile/screens/screens.dart';
 
 class AppRouter {
@@ -13,6 +12,12 @@ class AppRouter {
         return HomeScreen.route();
       case CartScreen.routeName:
         return CartScreen.route();
+      case ProductScreen.routeName:
+        return ProductScreen.route();
+      case WishlistScreen.routeName:
+        return WishlistScreen.route();
+      case CatalogScreen.routeName:
+        return CatalogScreen.route();
 
       default:
         return _errorRoute();
