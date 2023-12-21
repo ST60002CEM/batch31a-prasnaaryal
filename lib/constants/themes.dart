@@ -6,3 +6,10 @@ const kThirdColor = Color(0xFFFFDCBC);
 const kLightBackground = Color(0xFFE8F6FB);
 const kWhiteColor = Colors.white;
 const kBlackColor = Colors.black;
+
+class AppTheme {
+  static const kBigTitle =
+      TextStyle(color: kWhiteColor, fontSize: 25, fontWeight: FontWeight.bold);
+
+  static final kBodyText = TextStyle(color: Colors.grey.shade500, fontSize: 12);
+}
