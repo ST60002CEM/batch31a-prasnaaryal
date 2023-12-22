@@ -11,5 +11,13 @@ class AppTheme {
   static const kBigTitle =
       TextStyle(color: kWhiteColor, fontSize: 25, fontWeight: FontWeight.bold);
 
+  static const kHeadingOne =
+      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+
+  static const kSeeAllText = TextStyle(color: kPrimaryColor);
+
   static final kBodyText = TextStyle(color: Colors.grey.shade500, fontSize: 12);
+
+  static const kCardTitle =
+      TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
 }
