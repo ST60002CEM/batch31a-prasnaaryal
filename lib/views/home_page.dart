@@ -7,21 +7,19 @@ import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: SvgPicture.asset(
           'assets/general/store_brand_white.svg',
           colorFilter: const ColorFilter.mode(kWhiteColor, BlendMode.srcIn),
@@ -36,15 +34,6 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         ],
-        leading: IconButton(
-          onPressed: () async {
-            _scaffoldKey.currentState!.openDrawer();
-          },
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-        ),
       ),
       drawer: const Drawer(),
       body: SingleChildScrollView(
