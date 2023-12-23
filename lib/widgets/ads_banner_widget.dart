@@ -26,7 +26,7 @@ class AdsBannerWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Apple Store',
                             style: AppTheme.kBigTitle,
                           ),
@@ -48,7 +48,7 @@ class AdsBannerWidget extends StatelessWidget {
                                 foregroundColor: kSecondaryColor,
                               ),
                               onPressed: () {},
-                              child: Text('Shop new year'))
+                              child: const Text('Shop new year'))
                         ]))),
             Image.asset('assets/general/landing.png'),
           ],

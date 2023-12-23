@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  @override
-  HomePageState createState() => HomePageState();
-}
+//   @override
+//   HomePageState createState() => HomePageState();
+// }
 
-class HomePageState extends State<HomePage> {
+// class HomePageState extends State<HomePage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final products = ref.watch(productNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
@@ -81,7 +84,20 @@ class HomePageState extends State<HomePage> {
                   Text('See all', style: AppTheme.kSeeAllText),
                 ],
               ),
-              const ProductCardWidget(),
+              // Container(
+              //   padding: const EdgeInsets.all(4),
+              //   width: double.infinity,
+              //   height: 300,
+              //   child: ListView.builder(
+              //     padding: const EdgeInsets.all(4),
+              //     itemCount: 4,
+              //     scrollDirection: Axis.horizontal,
+              //     shrinkWrap: true,
+              //     itemBuilder: (context, index) =>
+              //         ProductCardWidget(productIndex: index),
+              //   ),
+              // ),
+              const ProductCardWidget(productIndex: 5),
               // Featured section
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,14 +109,16 @@ class HomePageState extends State<HomePage> {
 
               MasonryGridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 4,
+                itemCount: products.length,
                 shrinkWrap: true,
                 gridDelegate:
                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2),
-                itemBuilder: (context, index) => const SizedBox(
+                itemBuilder: (context, index) => SizedBox(
                   height: 250,
-                  child: ProductCardWidget(),
+                  child: ProductCardWidget(
+                    productIndex: index,
+                  ),
                 ),
               ),
             ],

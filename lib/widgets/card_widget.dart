@@ -1,16 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/controllers/product_controller.dart';
 
 class ProductCardWidget extends ConsumerWidget {
   const ProductCardWidget({
     super.key,
+    required this.productIndex,
   });
+
+  final int productIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final product = ref.watch(productNotifierProvider);
     return Container(
       padding: const EdgeInsets.all(4),
       width: double.infinity,
@@ -41,7 +45,7 @@ class ProductCardWidget extends ConsumerWidget {
                   width: double.infinity,
                   margin: const EdgeInsets.all(12),
                   color: kLightBackground,
-                  child: Image.asset('assets/products/airpods.jpg'),
+                  child: Image.asset(product[productIndex].imgUrl),
                 ),
               ),
               const Gap(4),
@@ -50,18 +54,17 @@ class ProductCardWidget extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Product Name',
+                    Text(
+                      product[productIndex].title,
                       style: AppTheme.kCardTitle,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text('Short description product',
+                    Text(product[productIndex].shortDescription,
                         style: AppTheme.kBodyText),
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('\Rs1000',
+                        Text('Rs${product[productIndex].price}',
                             style: AppTheme.kCardTitle),
                         IconButton(
                           onPressed: () {},
