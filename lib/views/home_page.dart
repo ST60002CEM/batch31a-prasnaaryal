@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
@@ -80,8 +81,28 @@ class HomePageState extends State<HomePage> {
                   Text('See all', style: AppTheme.kSeeAllText),
                 ],
               ),
-              const ProductCardWidget()
+              const ProductCardWidget(),
               // Featured section
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Featured Products', style: AppTheme.kHeadingOne),
+                  Text('See all', style: AppTheme.kSeeAllText),
+                ],
+              ),
+
+              MasonryGridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 4,
+                shrinkWrap: true,
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                itemBuilder: (context, index) => const SizedBox(
+                  height: 250,
+                  child: ProductCardWidget(),
+                ),
+              ),
             ],
           ),
         ),

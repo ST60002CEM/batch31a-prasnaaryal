@@ -1,15 +1,16 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
 
-class ProductCardWidget extends StatelessWidget {
+class ProductCardWidget extends ConsumerWidget {
   const ProductCardWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(4),
       width: double.infinity,
