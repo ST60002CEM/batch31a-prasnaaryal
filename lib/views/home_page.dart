@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/config/themes/themes.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';

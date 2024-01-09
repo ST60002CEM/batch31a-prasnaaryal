@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/config/themes/themes.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
 
 class ProductCardWidget extends ConsumerWidget {

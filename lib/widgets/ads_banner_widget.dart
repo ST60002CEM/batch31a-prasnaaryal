@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../constants/themes.dart';
+import '../config/themes/themes.dart';
 
 class AdsBannerWidget extends StatelessWidget {
   const AdsBannerWidget({
