@@ -30,6 +30,9 @@ class HomePage extends ConsumerWidget {
     final products = ref.watch(productNotifierProvider);
     final currentIndex = ref.watch(currentIndexProvider);
     final itemBag = ref.watch(itemBagProvider);
+
+    final ScrollController _scrollController = ScrollController();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
@@ -63,6 +66,7 @@ class HomePage extends ConsumerWidget {
       ),
       drawer: const Drawer(),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.all(25),
           child: Column(
@@ -159,8 +163,19 @@ class HomePage extends ConsumerWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        onTap: (value) =>
-            ref.read(currentIndexProvider.notifier).update((state) => value),
+        onTap: (value) {
+          if (value == 0) {
+            // Home icon index
+            // Scroll to the top of the page
+            _scrollController.animateTo(
+              0,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            ref.read(currentIndexProvider.notifier).update((state) => value);
+          }
+        },
         selectedItemColor: kPrimaryColor,
         unselectedItemColor: kSecondaryColor,
         items: const [
