@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/model/product_model.dart';
 
-List<ProductModel> itembag = [];
+List<ProductModel> itembag = [
+  
+];
 
 class ItemBagNotifier extends StateNotifier<List<ProductModel>> {
   ItemBagNotifier() : super(itembag);
@@ -25,4 +27,14 @@ class ItemBagNotifier extends StateNotifier<List<ProductModel>> {
 final itemBagProvider =
     StateNotifierProvider<ItemBagNotifier, List<ProductModel>>((ref) {
   return ItemBagNotifier();
+});
+
+final priceCalcProvider = StateProvider<double>((ref) {
+  final itemBag = ref.watch(itemBagProvider);
+
+  double sum = 0;
+  for (var element in itemBag) {
+    sum += element.price;
+  }
+  return sum;
 });
