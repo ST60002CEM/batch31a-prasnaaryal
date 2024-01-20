@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/controllers/itembag_controller.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
+import 'package:hamropasalmobile/model/product_model.dart';
 
 class ProductCardWidget extends ConsumerWidget {
   const ProductCardWidget({
@@ -67,9 +69,36 @@ class ProductCardWidget extends ConsumerWidget {
                         Text('Rs${product[productIndex].price}',
                             style: AppTheme.kCardTitle),
                         IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.add_circle,
+                          onPressed: () {
+                            ref
+                                .read(productNotifierProvider.notifier)
+                                .isSelectItem(
+                                    product[productIndex].pid, productIndex);
+
+                            if (product[productIndex].isSelected == false) {
+                              ref.read(itemBagProvider.notifier).addNewItemBag(
+                                    ProductModel(
+                                        pid: product[productIndex].pid,
+                                        imgUrl: product[productIndex].imgUrl,
+                                        title: product[productIndex].title,
+                                        price: product[productIndex].price,
+                                        shortDescription: product[productIndex]
+                                            .shortDescription,
+                                        longDescription: product[productIndex]
+                                            .longDescription,
+                                        review: product[productIndex].review,
+                                        rating: product[productIndex].rating),
+                                  );
+                            } else {
+                              ref
+                                  .read(itemBagProvider.notifier)
+                                  .removeItem(product[productIndex].pid);
+                            }
+                          },
+                          icon: Icon(
+                            product[productIndex].isSelected
+                                ? Icons.check_circle
+                                : Icons.add_circle,
                             size: 30,
                           ),
                         ),

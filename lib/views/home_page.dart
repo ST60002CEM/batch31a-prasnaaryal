@@ -10,6 +10,8 @@ import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
 
+import '../controllers/itembag_controller.dart';
+
 final currentIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
@@ -26,6 +28,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(productNotifierProvider);
     final currentIndex = ref.watch(currentIndexProvider);
+    final itemBag = ref.watch(itemBagProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
@@ -37,10 +40,15 @@ class HomePage extends ConsumerWidget {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.local_mall_outlined),
+            padding: const EdgeInsets.only(right: 20, top: 10),
+            child: Badge(
+              label: Text(itemBag.length.toString()),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.local_mall,
+                ),
+              ),
             ),
           )
         ],
