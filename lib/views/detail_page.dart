@@ -83,13 +83,18 @@ class DetailsPage extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Rs${product[getIndex].price}',
+                        Text(
+                            'Rs ${product[getIndex].price * product[getIndex].qty}',
                             style: AppTheme.kHeadingOne),
                         Container(
                           child: Row(
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  ref
+                                      .read(productNotifierProvider.notifier)
+                                      .decreaseQty(product[getIndex].pid);
+                                },
                                 icon: const Icon(
                                     Icons.do_not_disturb_on_outlined,
                                     size: 30),
@@ -98,7 +103,11 @@ class DetailsPage extends ConsumerWidget {
                                   style: AppTheme.kCardTitle
                                       .copyWith(fontSize: 24)),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  ref
+                                      .read(productNotifierProvider.notifier)
+                                      .incrementQty(product[getIndex].pid);
+                                },
                                 icon: const Icon(Icons.add_circle_outline,
                                     size: 30),
                               ),
