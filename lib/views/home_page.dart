@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
+import 'package:hamropasalmobile/views/detail_page.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
@@ -119,10 +120,20 @@ class HomePage extends ConsumerWidget {
                 gridDelegate:
                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2),
-                itemBuilder: (context, index) => SizedBox(
-                  height: 250,
-                  child: ProductCardWidget(
-                    productIndex: index,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsPage(
+                        getIndex: index,
+                      ),
+                    ),
+                  ),
+                  child: SizedBox(
+                    height: 250,
+                    child: ProductCardWidget(
+                      productIndex: index,
+                    ),
                   ),
                 ),
               ),

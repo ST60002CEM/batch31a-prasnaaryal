@@ -8,9 +8,9 @@ import 'package:hamropasalmobile/views/home_page.dart';
 import '../constants/themes.dart';
 
 class DetailsPage extends ConsumerWidget {
-  DetailsPage({super.key});
+  DetailsPage({super.key, required this.getIndex});
 
-  int getIndex = 0;
+  int getIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
