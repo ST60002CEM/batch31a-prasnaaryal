@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/config/constants/themes.dart';
 import 'package:hamropasalmobile/controllers/itembag_controller.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/model/product_model.dart';
@@ -58,16 +58,16 @@ class ProductCardWidget extends ConsumerWidget {
                   children: [
                     Text(
                       product[productIndex].title,
-                      style: AppTheme.kCardTitle,
+                      style: ThemeConstant.kCardTitle,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(product[productIndex].shortDescription,
-                        style: AppTheme.kBodyText),
+                        style: ThemeConstant.kBodyText),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Rs${product[productIndex].price}',
-                            style: AppTheme.kCardTitle),
+                            style: ThemeConstant.kCardTitle),
                         IconButton(
                           onPressed: () {
                             ref

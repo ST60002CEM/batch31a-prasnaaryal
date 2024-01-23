@@ -6,7 +6,7 @@ import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/views/cart_page.dart';
 import 'package:hamropasalmobile/views/home_page.dart';
 
-import '../constants/themes.dart';
+import '../config/constants/themes.dart';
 
 class DetailsPage extends ConsumerWidget {
   DetailsPage({super.key, required this.getIndex});
@@ -24,7 +24,7 @@ class DetailsPage extends ConsumerWidget {
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           'Details Page',
-          style: AppTheme.kBigTitle.copyWith(color: kWhiteColor),
+          style: ThemeConstant.kBigTitle.copyWith(color: kWhiteColor),
         ),
         actions: [
           Padding(
@@ -53,7 +53,7 @@ class DetailsPage extends ConsumerWidget {
                   children: [
                     Text(
                       product[getIndex].title,
-                      style: AppTheme.kBigTitle.copyWith(color: kPrimaryColor),
+                      style: ThemeConstant.kBigTitle.copyWith(color: kPrimaryColor),
                     ),
                     const Gap(12),
                     Row(
@@ -86,7 +86,7 @@ class DetailsPage extends ConsumerWidget {
                       children: [
                         Text(
                             'Rs ${product[getIndex].price * product[getIndex].qty}',
-                            style: AppTheme.kHeadingOne),
+                            style: ThemeConstant.kHeadingOne),
                         Container(
                           child: Row(
                             children: [
@@ -101,7 +101,7 @@ class DetailsPage extends ConsumerWidget {
                                     size: 30),
                               ),
                               Text(product[getIndex].qty.toString(),
-                                  style: AppTheme.kCardTitle
+                                  style: ThemeConstant.kCardTitle
                                       .copyWith(fontSize: 24)),
                               IconButton(
                                 onPressed: () {

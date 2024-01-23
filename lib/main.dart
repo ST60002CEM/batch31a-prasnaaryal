@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hamropasalmobile/views/cart_page.dart';
-import 'package:hamropasalmobile/views/detail_page.dart';
-import 'package:hamropasalmobile/views/home_page.dart';
+import 'package:hamropasalmobile/core/network/hive_service.dart';
 
-void main() {
+import 'core/app.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  await HiveService().init();
   runApp(
     const ProviderScope(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomePage(),
-      ),
+      child: App(),
     ),
   );
 }

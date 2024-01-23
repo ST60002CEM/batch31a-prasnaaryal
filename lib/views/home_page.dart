@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:hamropasalmobile/constants/themes.dart';
+import 'package:hamropasalmobile/config/constants/themes.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/views/cart_page.dart';
 import 'package:hamropasalmobile/views/detail_page.dart';
@@ -106,8 +106,8 @@ class HomePage extends ConsumerWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Hot Sales', style: AppTheme.kHeadingOne),
-                  Text('See all', style: AppTheme.kSeeAllText),
+                  Text('Hot Sales', style: ThemeConstant.kHeadingOne),
+                  Text('See all', style: ThemeConstant.kSeeAllText),
                 ],
               ),
               // Container(
@@ -128,8 +128,8 @@ class HomePage extends ConsumerWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Featured Products', style: AppTheme.kHeadingOne),
-                  Text('See all', style: AppTheme.kSeeAllText),
+                  Text('Featured Products', style: ThemeConstant.kHeadingOne),
+                  Text('See all', style: ThemeConstant.kSeeAllText),
                 ],
               ),
 

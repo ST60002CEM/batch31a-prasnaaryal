@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../constants/themes.dart';
+import '../config/constants/themes.dart';
 
 class AdsBannerWidget extends StatelessWidget {
   const AdsBannerWidget({
@@ -28,13 +28,13 @@ class AdsBannerWidget extends StatelessWidget {
                         children: [
                           const Text(
                             'Apple Store',
-                            style: AppTheme.kBigTitle,
+                            style: ThemeConstant.kBigTitle,
                           ),
                           const Gap(8),
                           Text(
                             'Find the Apple product and accessories you’re looking for',
                             style:
-                                AppTheme.kBodyText.copyWith(color: kWhiteColor),
+                                ThemeConstant.kBodyText.copyWith(color: kWhiteColor),
                           ),
                           const Gap(4),
                           // ElevatedButton(
