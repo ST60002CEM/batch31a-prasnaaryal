@@ -259,6 +259,8 @@ class HomePage extends ConsumerWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
+          ref.read(currentIndexProvider.notifier).update((state) => value);
+
           if (value == 0) {
             // Home icon index
             // Scroll to the top of the page
