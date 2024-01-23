@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
-import '../config/constants/themes.dart';
+import '../constants/themes.dart';
 import '../controllers/itembag_controller.dart';
 
 class CardPage extends ConsumerWidget {
@@ -17,7 +17,7 @@ class CardPage extends ConsumerWidget {
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           'MyCart Page',
-          style: ThemeConstant.kBigTitle.copyWith(color: kWhiteColor),
+          style: AppTheme.kBigTitle.copyWith(color: kWhiteColor),
         ),
         actions: [
           Padding(
@@ -55,10 +55,10 @@ class CardPage extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(itemBag[index].title,
-                                      style: ThemeConstant.kCardTitle),
+                                      style: AppTheme.kCardTitle),
                                   const Gap(6),
                                   Text(itemBag[index].shortDescription,
-                                      style: ThemeConstant.kBodyText),
+                                      style: AppTheme.kBodyText),
                                   const Gap(4),
                                   Text(
                                     '\Rs ${itemBag[index].price}',

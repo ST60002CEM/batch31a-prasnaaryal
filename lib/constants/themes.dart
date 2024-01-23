@@ -7,15 +7,7 @@ const kLightBackground = Color(0xFFE8F6FB);
 const kWhiteColor = Colors.white;
 const kBlackColor = Colors.black;
 
-class ThemeConstant {
-    ThemeConstant._();
- 
-  static const Color darkPrimaryColor = Colors.yellow;
-  static const Color primaryColor = Colors.green;
-  static const Color appBarColor = Colors.green;
-
-
-
+class AppTheme {
   static const kBigTitle =
       TextStyle(color: kWhiteColor, fontSize: 25, fontWeight: FontWeight.bold);
 
