@@ -3,7 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
-import 'package:hamropasalmobile/views/cart_page.dart';
 import 'package:hamropasalmobile/views/home_page.dart';
 
 import '../constants/themes.dart';
@@ -71,7 +70,7 @@ class DetailsPage extends ConsumerWidget {
                             half: const Icon(Icons.star_half_sharp,
                                 color: Colors.amber),
                           ),
-                          onRatingUpdate: (value) => null,
+                          onRatingUpdate: (value) {},
                         ),
                         const Gap(12),
                         const Text('123 reviews'),

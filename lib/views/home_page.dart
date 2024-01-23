@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
+import 'package:hamropasalmobile/model/product_model.dart';
 import 'package:hamropasalmobile/views/cart_page.dart';
-import 'package:hamropasalmobile/views/detail_page.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
@@ -31,7 +30,7 @@ class HomePage extends ConsumerWidget {
     final currentIndex = ref.watch(currentIndexProvider);
     final itemBag = ref.watch(itemBagProvider);
 
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController scrollController = ScrollController();
 
     return Scaffold(
       appBar: AppBar(
@@ -66,9 +65,9 @@ class HomePage extends ConsumerWidget {
       ),
       drawer: const Drawer(),
       body: SingleChildScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(15),
           child: Column(
             children: [
               // Ads banner section
@@ -123,7 +122,7 @@ class HomePage extends ConsumerWidget {
               //         ProductCardWidget(productIndex: index),
               //   ),
               // ),
-              const ProductCardWidget(productIndex: 5),
+              const ProductCardWidget(),
               // Featured section
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,31 +131,127 @@ class HomePage extends ConsumerWidget {
                   Text('See all', style: AppTheme.kSeeAllText),
                 ],
               ),
-
-              MasonryGridView.builder(
+              GridView.builder(
+                padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: products.length,
                 shrinkWrap: true,
-                gridDelegate:
-                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailsPage(
-                        getIndex: index,
-                      ),
-                    ),
+                itemCount: products.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 0.65),
+                itemBuilder: (context, index) => Container(
+                  decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(0, 6),
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          spreadRadius: 2),
+                    ],
                   ),
-                  child: SizedBox(
-                    height: 250,
-                    child: ProductCardWidget(
-                      productIndex: index,
-                    ),
+                  margin: const EdgeInsets.all(12),
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 305,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.all(12),
+                          color: kLightBackground,
+                          child: Image.asset(products[index].imgUrl),
+                        ),
+                      ),
+                      const Gap(4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              products[index].title,
+                              style: AppTheme.kCardTitle,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(products[index].shortDescription,
+                                style: AppTheme.kBodyText),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Rs${products[index].price}',
+                                    style: AppTheme.kCardTitle),
+                                IconButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(productNotifierProvider.notifier)
+                                        .isSelectItem(
+                                            products[index].pid, index);
+
+                                    if (products[index].isSelected == false) {
+                                      ref
+                                          .read(itemBagProvider.notifier)
+                                          .addNewItemBag(
+                                            ProductModel(
+                                                pid: products[index].pid,
+                                                imgUrl: products[index].imgUrl,
+                                                title: products[index].title,
+                                                price: products[index].price,
+                                                shortDescription:
+                                                    products[index]
+                                                        .shortDescription,
+                                                longDescription: products[index]
+                                                    .longDescription,
+                                                review: products[index].review,
+                                                rating: products[index].rating),
+                                          );
+                                    } else {
+                                      ref
+                                          .read(itemBagProvider.notifier)
+                                          .removeItem(products[index].pid);
+                                    }
+                                  },
+                                  icon: Icon(
+                                    products[index].isSelected
+                                        ? Icons.check_circle
+                                        : Icons.add_circle,
+                                    size: 30,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              ),
+              )
+
+              // MasonryGridView.builder(
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemCount: products.length,
+              //   shrinkWrap: true,
+              //   gridDelegate:
+              //       const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              //           crossAxisCount: 2),
+              //   itemBuilder: (context, index) => GestureDetector(
+              //     onTap: () => Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => DetailsPage(
+              //           getIndex: index,
+              //         ),
+              //       ),
+              //     ),
+              //     child: SizedBox(
+              //       height: 250,
+              //       child: ProductCardWidget(
+              //         // productIndex: index,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -167,9 +262,9 @@ class HomePage extends ConsumerWidget {
           if (value == 0) {
             // Home icon index
             // Scroll to the top of the page
-            _scrollController.animateTo(
+            scrollController.animateTo(
               0,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeInOut,
             );
           } else {

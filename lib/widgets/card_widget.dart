@@ -9,10 +9,7 @@ import 'package:hamropasalmobile/model/product_model.dart';
 class ProductCardWidget extends ConsumerWidget {
   const ProductCardWidget({
     super.key,
-    required this.productIndex,
   });
-
-  final int productIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +20,7 @@ class ProductCardWidget extends ConsumerWidget {
       height: 300,
       child: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 3,
+        itemCount: product.length,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemBuilder: (context, index) => Container(
@@ -47,7 +44,7 @@ class ProductCardWidget extends ConsumerWidget {
                   width: double.infinity,
                   margin: const EdgeInsets.all(12),
                   color: kLightBackground,
-                  child: Image.asset(product[productIndex].imgUrl),
+                  child: Image.asset(product[index].imgUrl),
                 ),
               ),
               const Gap(4),
@@ -57,46 +54,45 @@ class ProductCardWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product[productIndex].title,
+                      product[index].title,
                       style: AppTheme.kCardTitle,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(product[productIndex].shortDescription,
+                    Text(product[index].shortDescription,
                         style: AppTheme.kBodyText),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Rs${product[productIndex].price}',
+                        Text('Rs${product[index].price}',
                             style: AppTheme.kCardTitle),
                         IconButton(
                           onPressed: () {
                             ref
                                 .read(productNotifierProvider.notifier)
-                                .isSelectItem(
-                                    product[productIndex].pid, productIndex);
+                                .isSelectItem(product[index].pid, index);
 
-                            if (product[productIndex].isSelected == false) {
+                            if (product[index].isSelected == false) {
                               ref.read(itemBagProvider.notifier).addNewItemBag(
                                     ProductModel(
-                                        pid: product[productIndex].pid,
-                                        imgUrl: product[productIndex].imgUrl,
-                                        title: product[productIndex].title,
-                                        price: product[productIndex].price,
-                                        shortDescription: product[productIndex]
-                                            .shortDescription,
-                                        longDescription: product[productIndex]
-                                            .longDescription,
-                                        review: product[productIndex].review,
-                                        rating: product[productIndex].rating),
+                                        pid: product[index].pid,
+                                        imgUrl: product[index].imgUrl,
+                                        title: product[index].title,
+                                        price: product[index].price,
+                                        shortDescription:
+                                            product[index].shortDescription,
+                                        longDescription:
+                                            product[index].longDescription,
+                                        review: product[index].review,
+                                        rating: product[index].rating),
                                   );
                             } else {
                               ref
                                   .read(itemBagProvider.notifier)
-                                  .removeItem(product[productIndex].pid);
+                                  .removeItem(product[index].pid);
                             }
                           },
                           icon: Icon(
-                            product[productIndex].isSelected
+                            product[index].isSelected
                                 ? Icons.check_circle
                                 : Icons.add_circle,
                             size: 30,
