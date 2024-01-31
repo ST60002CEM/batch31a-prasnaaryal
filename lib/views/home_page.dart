@@ -6,6 +6,7 @@ import 'package:hamropasalmobile/constants/themes.dart';
 import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/model/product_model.dart';
 import 'package:hamropasalmobile/views/cart_page.dart';
+import 'package:hamropasalmobile/views/detail_page.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
@@ -138,92 +139,108 @@ class HomePage extends ConsumerWidget {
                 itemCount: products.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: 0.65),
-                itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                    color: kWhiteColor,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: const Offset(0, 6),
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          spreadRadius: 2),
-                    ],
-                  ),
-                  margin: const EdgeInsets.all(12),
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: 305,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.all(12),
-                          color: kLightBackground,
-                          child: Image.asset(products[index].imgUrl),
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailsPage(
+                                  product: products[index],
+                                )));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: kWhiteColor,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                            offset: const Offset(0, 6),
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            spreadRadius: 2),
+                      ],
+                    ),
+                    margin: const EdgeInsets.all(12),
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: 305,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.all(12),
+                            color: kLightBackground,
+                            child: Image.asset(products[index].imgUrl),
+                          ),
                         ),
-                      ),
-                      const Gap(4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              products[index].title,
-                              style: AppTheme.kCardTitle,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(products[index].shortDescription,
-                                style: AppTheme.kBodyText),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Rs${products[index].price}',
-                                    style: AppTheme.kCardTitle),
-                                IconButton(
-                                  onPressed: () {
-                                    ref
-                                        .read(productNotifierProvider.notifier)
-                                        .isSelectItem(
-                                            products[index].pid, index);
+                        const Gap(4),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                products[index].title,
+                                style: AppTheme.kCardTitle,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(products[index].shortDescription,
+                                  style: AppTheme.kBodyText),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Rs${products[index].price}',
+                                      style: AppTheme.kCardTitle),
+                                  IconButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(
+                                              productNotifierProvider.notifier)
+                                          .isSelectItem(
+                                              products[index].pid, index);
 
-                                    if (products[index].isSelected == false) {
-                                      ref
-                                          .read(itemBagProvider.notifier)
-                                          .addNewItemBag(
-                                            ProductModel(
-                                                pid: products[index].pid,
-                                                imgUrl: products[index].imgUrl,
-                                                title: products[index].title,
-                                                price: products[index].price,
-                                                shortDescription:
-                                                    products[index]
-                                                        .shortDescription,
-                                                longDescription: products[index]
-                                                    .longDescription,
-                                                review: products[index].review,
-                                                rating: products[index].rating),
-                                          );
-                                    } else {
-                                      ref
-                                          .read(itemBagProvider.notifier)
-                                          .removeItem(products[index].pid);
-                                    }
-                                  },
-                                  icon: Icon(
-                                    products[index].isSelected
-                                        ? Icons.check_circle
-                                        : Icons.add_circle,
-                                    size: 30,
+                                      if (products[index].isSelected == false) {
+                                        ref
+                                            .read(itemBagProvider.notifier)
+                                            .addNewItemBag(
+                                              ProductModel(
+                                                  pid: products[index].pid,
+                                                  imgUrl:
+                                                      products[index].imgUrl,
+                                                  title: products[index].title,
+                                                  price: products[index].price,
+                                                  shortDescription:
+                                                      products[index]
+                                                          .shortDescription,
+                                                  longDescription:
+                                                      products[index]
+                                                          .longDescription,
+                                                  review:
+                                                      products[index].review,
+                                                  rating:
+                                                      products[index].rating),
+                                            );
+                                      } else {
+                                        ref
+                                            .read(itemBagProvider.notifier)
+                                            .removeItem(products[index].pid);
+                                      }
+                                    },
+                                    icon: Icon(
+                                      products[index].isSelected
+                                          ? Icons.check_circle
+                                          : Icons.add_circle,
+                                      size: 30,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )
