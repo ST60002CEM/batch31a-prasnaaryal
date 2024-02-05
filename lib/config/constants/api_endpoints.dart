@@ -5,7 +5,7 @@ class ApiEndpoints {
   static const Duration receiveTimeout = Duration(seconds: 1000);
 
   // For Windows
-  static const String baseUrl = "http://10.0.2.2:3000/api/v1/";
+  static const String baseUrl = "http://10.0.2.2:9000/api";
   // For Windows
   // static const String baseUrl = "http://192.168.137.1:3000/api/v1/";
   // static const String baseUrl = "http://192.168.137.1:3000/api/v1/";
@@ -18,12 +18,12 @@ class ApiEndpoints {
 
   // ====================== Auth Routes ======================
   static const String login = "auth/login";
-  static const String register = "auth/register";
+  static const String register = "$baseUrl/auth/register";
   // static const String getAllStudent = "auth/getAllStudents";
   // static const String getStudentsByBatch = "auth/getStudentsByBatch/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   // static const String updateStudent = "auth/updateStudent/";
   // static const String deleteStudent = "auth/deleteStudent/";
-  static const String imageUrl = "http://10.0.2.2:3000/uploads/";
-  static const String uploadImage = "auth/uploadImage";
+  static const String imageUrl = "";
+  static const String uploadImage = "";
 }

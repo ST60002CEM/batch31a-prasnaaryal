@@ -8,13 +8,11 @@ const kWhiteColor = Colors.white;
 const kBlackColor = Colors.black;
 
 class ThemeConstant {
-    ThemeConstant._();
- 
-  static const Color darkPrimaryColor = Colors.yellow;
-  static const Color primaryColor = Colors.green;
-  static const Color appBarColor = Colors.green;
+  ThemeConstant._();
 
-
+  static const Color darkPrimaryColor = kBlackColor;
+  static const Color primaryColor = kPrimaryColor;
+  static const Color appBarColor = kSecondaryColor;
 
   static const kBigTitle =
       TextStyle(color: kWhiteColor, fontSize: 25, fontWeight: FontWeight.bold);
