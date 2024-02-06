@@ -7,6 +7,7 @@ import 'package:hamropasalmobile/controllers/product_controller.dart';
 import 'package:hamropasalmobile/model/product_model.dart';
 import 'package:hamropasalmobile/views/cart_page.dart';
 import 'package:hamropasalmobile/views/detail_page.dart';
+import 'package:hamropasalmobile/views/profile_page.dart';
 import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
 import 'package:hamropasalmobile/widgets/card_widget.dart';
 import 'package:hamropasalmobile/widgets/chip_widget.dart';
@@ -278,21 +279,45 @@ class HomePage extends ConsumerWidget {
         onTap: (value) {
           ref.read(currentIndexProvider.notifier).update((state) => value);
 
-          if (value == 0) {
-            // Home icon index
-            // Scroll to the top of the page
-            scrollController.animateTo(
-              0,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-            );
-          } else {
-            ref.read(currentIndexProvider.notifier).update((state) => value);
+          switch (value) {
+            case 0:
+              // Home icon index
+              // Scroll to the top of the page
+              // scrollController
+              //     .animateTo(
+              //   0,
+              //   duration: const Duration(milliseconds: 500),
+              //   curve: Curves.easeInOut,
+              // )
+              // .then((_) {
+              // After scrolling to the top, use Navigator.push to navigate to the HomePage
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              );
+
+              break;
+            case 4:
+              // Profile icon index
+              // Use Navigator.push to navigate to the DetailsPage
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(),
+                ),
+              );
+              break;
+            default:
+              ref.read(currentIndexProvider.notifier).update((state) => value);
+              // Handle other tabs if needed
+              break;
           }
         },
         selectedItemColor: kPrimaryColor,
         unselectedItemColor: kSecondaryColor,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: 'Home',
