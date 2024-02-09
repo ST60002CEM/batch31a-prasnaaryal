@@ -6,7 +6,6 @@ import 'package:hamropasalmobile/core/common/snackbar/my_snackbar.dart';
 import 'package:hamropasalmobile/features/auth/domain/entity/auth_entity.dart';
 import 'package:hamropasalmobile/features/auth/presentation/auth_viewmodel/auth_viewmodel.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:gap/gap.dart';
 
@@ -166,7 +165,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           height:
                               20), // Add space between CircleAvatar and next widget
 
-                      Container(
+                      SizedBox(
                         width: 330, // Set your desired width here
                         child: TextFormField(
                           controller: _fnameController,
@@ -181,9 +180,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           }),
                         ),
                       ),
-                      Gap(10),
+                      const Gap(10),
 
-                      Container(
+                      SizedBox(
                         width: 330, // Set your desired width here
                         child: TextFormField(
                           controller: _lnameController,
@@ -198,8 +197,8 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           }),
                         ),
                       ),
-                      Gap(10),
-                      Container(
+                      const Gap(10),
+                      SizedBox(
                         width: 330, // Set your desired width here
                         child: TextFormField(
                           controller: _emailController,
@@ -214,7 +213,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           }),
                         ),
                       ),
-                      Gap(10),
+                      const Gap(10),
                       // batchState.isLoading
                       //     ? const Center(child: CircularProgressIndicator())
                       //     : DropdownButtonFormField(
@@ -270,7 +269,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       //         }),
                       //       ),
 
-                      Container(
+                      SizedBox(
                         width: 330, // Set your desired width here
                         child: TextFormField(
                           controller: _confirmpasswordController,
@@ -285,8 +284,8 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           }),
                         ),
                       ),
-                      Gap(10),
-                      Container(
+                      const Gap(10),
+                      SizedBox(
                         width: 330, // Set your desired width here
                         child: TextFormField(
                           controller: _passwordController,
@@ -314,7 +313,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           }),
                         ),
                       ),
-                      Gap(20),
+                      const Gap(20),
 
                       SizedBox(
                         width: double.infinity,

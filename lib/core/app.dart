@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hamropasalmobile/config/constants/themes.dart';
 import 'package:hamropasalmobile/config/router/app_route.dart';
 import 'package:hamropasalmobile/config/themes/app_theme.dart';
 

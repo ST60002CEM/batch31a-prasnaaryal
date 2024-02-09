@@ -61,7 +61,7 @@ class CardPage extends ConsumerWidget {
                                       style: ThemeConstant.kBodyText),
                                   const Gap(4),
                                   Text(
-                                    '\Rs ${itemBag[index].price}',
+                                    'Rs ${itemBag[index].price}',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   )

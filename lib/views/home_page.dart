@@ -31,7 +31,7 @@ class HomePage extends ConsumerWidget {
     final currentIndex = ref.watch(currentIndexProvider);
     final itemBag = ref.watch(itemBagProvider);
 
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController scrollController = ScrollController();
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +66,7 @@ class HomePage extends ConsumerWidget {
       ),
       drawer: const Drawer(),
       body: SingleChildScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         child: Padding(
           padding: const EdgeInsets.all(25),
           child: Column(
@@ -167,9 +167,9 @@ class HomePage extends ConsumerWidget {
           if (value == 0) {
             // Home icon index
             // Scroll to the top of the page
-            _scrollController.animateTo(
+            scrollController.animateTo(
               0,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeInOut,
             );
           } else {

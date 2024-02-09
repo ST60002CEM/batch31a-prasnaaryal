@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,20 +15,22 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SettingsScreen(),
+      home: const SettingsScreen(),
     );
   }
 }
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               // Settings action
             },
@@ -42,11 +46,11 @@ class SettingsScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  title: Text('Avatar'),
+                  title: const Text('Avatar'),
                   trailing: Stack(
                     alignment: Alignment.center,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 30,
                         backgroundImage: NetworkImage(
                             'Your image URL here'), // Replace with your avatar image URL
@@ -55,12 +59,12 @@ class SettingsScreen extends StatelessWidget {
                         bottom: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(2),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(2),
+                          decoration: const BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.edit,
                             size: 20,
                             color: Colors.purple,
@@ -70,14 +74,14 @@ class SettingsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Divider(),
-                ListTile(
+                const Divider(),
+                const ListTile(
                   title: Text('Email'),
                   subtitle: Text('pp@pp.com'),
                   trailing: Icon(Icons.edit),
                 ),
-                Divider(),
-                ListTile(
+                const Divider(),
+                const ListTile(
                   title: Text('Change Password'),
                   trailing: Icon(Icons.edit),
                 ),
