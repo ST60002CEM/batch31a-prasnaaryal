@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/constants/themes.dart';
 import 'package:hamropasalmobile/controllers/itembag_controller.dart';
+import 'package:hamropasalmobile/core/common/widget/Bottom_navigation.dart';
 import 'package:hamropasalmobile/views/home_page.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) {
@@ -88,71 +89,73 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (value) {
-          ref.read(currentIndexProvider.notifier).update((state) => value);
+      bottomNavigationBar: CustomBottomNavigationBar(),
 
-          switch (value) {
-            case 0:
-              // Home icon index
-              // Scroll to the top of the page
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: currentIndex,
+      //   onTap: (value) {
+      //     ref.read(currentIndexProvider.notifier).update((state) => value);
 
-              // After scrolling to the top, use Navigator.push to navigate to the HomePage
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
-              );
+      //     switch (value) {
+      //       case 0:
+      //         // Home icon index
+      //         // Scroll to the top of the page
 
-              break;
-            case 4:
-              // Profile icon index
-              // Use Navigator.push to navigate to the DetailsPage
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SettingsScreen(),
-                ),
-              );
-              break;
-            default:
-              ref.read(currentIndexProvider.notifier).update((state) => value);
-              // Handle other tabs if needed
-              break;
-          }
-        },
-        selectedItemColor: kPrimaryColor,
-        unselectedItemColor: kSecondaryColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-            activeIcon: Icon(Icons.home_filled),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            label: 'Favorite',
-            activeIcon: Icon(Icons.favorite),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on_outlined),
-            label: 'Location',
-            activeIcon: Icon(Icons.location_on),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            label: 'Notification',
-            activeIcon: Icon(Icons.notifications),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-            activeIcon: Icon(Icons.person),
-          ),
-        ],
-      ),
+      //         // After scrolling to the top, use Navigator.push to navigate to the HomePage
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => HomePage(),
+      //           ),
+      //         );
+
+      //         break;
+      //       case 4:
+      //         // Profile icon index
+      //         // Use Navigator.push to navigate to the DetailsPage
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => SettingsScreen(),
+      //           ),
+      //         );
+      //         break;
+      //       default:
+      //         ref.read(currentIndexProvider.notifier).update((state) => value);
+      //         // Handle other tabs if needed
+      //         break;
+      //     }
+      //   },
+      //   selectedItemColor: kPrimaryColor,
+      //   unselectedItemColor: kSecondaryColor,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home_outlined),
+      //       label: 'Home',
+      //       activeIcon: Icon(Icons.home_filled),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite_outline),
+      //       label: 'Favorite',
+      //       activeIcon: Icon(Icons.favorite),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.location_on_outlined),
+      //       label: 'Location',
+      //       activeIcon: Icon(Icons.location_on),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.notifications_outlined),
+      //       label: 'Notification',
+      //       activeIcon: Icon(Icons.notifications),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.person_outline),
+      //       label: 'Profile',
+      //       activeIcon: Icon(Icons.person),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
