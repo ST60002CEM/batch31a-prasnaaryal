@@ -6,7 +6,6 @@ import 'package:hamropasalmobile/config/router/app_route.dart';
 import 'package:hamropasalmobile/core/common/snackbar/my_snackbar.dart';
 import 'package:hamropasalmobile/features/auth/presentation/auth_viewmodel/auth_viewmodel.dart';
 
-
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
 
@@ -16,8 +15,8 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'kiran');
-  final _passwordController = TextEditingController(text: 'kiran123');
+  final _emailController = TextEditingController(text: 'sussyghiu@gmail.com');
+  final _passwordController = TextEditingController(text: 'Password123\$');
 
   // final _usernameController = TextEditingController();
   // final _passwordController = TextEditingController();
@@ -28,7 +27,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final authState = ref.watch(authViewModelProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (authState.showMessage! && authState.error != null) {
-        showSnackBar(message: 'Invalid Credentials', context: context);
+        showSnackBar(message: authState.error.toString(), context: context);
         ref.read(authViewModelProvider.notifier).resetMessage();
       }
     });

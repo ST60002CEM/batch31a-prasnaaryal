@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -8,7 +10,6 @@ import 'package:hamropasalmobile/core/failure/failure.dart';
 import 'package:hamropasalmobile/core/network/http_service.dart';
 import 'package:hamropasalmobile/features/auth/data/model/auth_api_model.dart';
 import 'package:hamropasalmobile/features/auth/domain/entity/auth_entity.dart';
-
 
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(
   (ref) => AuthRemoteDataSource(
@@ -62,7 +63,6 @@ class AuthRemoteDataSource {
           "lastName": apiModel.lastName,
           "image": apiModel.image,
           "email": apiModel.email,
-          
           "confirmPassword": apiModel.confirmPassword,
           "password": apiModel.password,
         },
@@ -89,13 +89,13 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, bool>> loginUser(
-      String email, String password) async {
+  Future<Either<Failure, bool>> loginUser(String email, String password) async {
     try {
-      Response response = await dio.post(ApiEndpoints.login,
-          data: {"email": email, "password": password});
+      final response = await dio.post(ApiEndpoints.login,
+          data: json.encode({"email": email, "password": password}));
 
       if (response.statusCode == 200) {
+        
         return const Right(true);
       } else {
         return Left(
