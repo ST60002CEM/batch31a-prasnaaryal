@@ -10,6 +10,7 @@ void main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   await HiveService().init();
+  
   runApp(
     const ProviderScope(
       child: App(),

@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/config/router/app_route.dart';
 import 'package:hamropasalmobile/features/auth/domain/entity/auth_entity.dart';
+import 'package:hamropasalmobile/features/auth/domain/repository/auth_repository.dart';
+import 'package:hamropasalmobile/features/auth/domain/use_case/auth_status_usecase.dart';
 import 'package:hamropasalmobile/features/auth/domain/use_case/login_usecase.dart';
 import 'package:hamropasalmobile/features/auth/domain/use_case/register_usecase.dart';
 import 'package:hamropasalmobile/features/auth/domain/use_case/upload_image_usecase.dart';
@@ -11,10 +13,10 @@ import 'package:hamropasalmobile/features/auth/presentation/state/auth_state.dar
 
 final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>(
   (ref) => AuthViewModel(
-    ref.read(registerUseCaseProvider),
-    ref.read(loginUseCaseProvider),
-    ref.read(uploadImageUseCaseProvider),
-  ),
+      ref.read(registerUseCaseProvider),
+      ref.read(loginUseCaseProvider),
+      ref.read(uploadImageUseCaseProvider),
+      ),
 );
 
 class AuthViewModel extends StateNotifier<AuthState> {
@@ -23,10 +25,12 @@ class AuthViewModel extends StateNotifier<AuthState> {
   final UploadImageUseCase _uploadImageUsecase;
 
   AuthViewModel(
-    this._registerUseCase,
-    this._loginUseCase,
-    this._uploadImageUsecase,
-  ) : super(AuthState.initial());
+      // TODO: Cleanup and make this more readable
+      this._registerUseCase,
+      this._loginUseCase,
+      this._uploadImageUsecase,
+      )
+      : super(AuthState.initial());
 
   Future<void> uploadImage(File? file) async {
     state = state.copyWith(isLoading: true);
