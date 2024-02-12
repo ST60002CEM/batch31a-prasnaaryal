@@ -3,7 +3,6 @@ import 'package:hamropasalmobile/config/constants/hive_table_constant.dart';
 import 'package:hamropasalmobile/features/auth/data/model/auth_hive_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // Create object using a provider
 final hiveServiceProvider = Provider<HiveService>(

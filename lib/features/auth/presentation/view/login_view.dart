@@ -24,6 +24,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   bool isObscure = true;
   @override
   Widget build(BuildContext context) {
+    // TODO: Add loading and disable button while loading
     final authState = ref.watch(authViewModelProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (authState.showMessage! && authState.error != null) {
