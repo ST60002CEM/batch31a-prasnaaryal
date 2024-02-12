@@ -18,8 +18,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
   final _emailController = TextEditingController(text: 'sussyghiu@gmail.com');
   final _passwordController = TextEditingController(text: 'Password123\$');
 
-  // final _usernameController = TextEditingController();
-  // final _passwordController = TextEditingController();
   final _gap = const SizedBox(height: 8);
   bool isObscure = true;
   @override
