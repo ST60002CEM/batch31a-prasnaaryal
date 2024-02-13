@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
-import '../config/constants/themes.dart';
-import '../controllers/itembag_controller.dart';
+import '../../../../config/constants/themes.dart';
+import '../../domain/use_case/controllers/itembag_controller.dart';
+
 
 class CardPage extends ConsumerWidget {
   const CardPage({super.key});
@@ -44,7 +47,10 @@ class CardPage extends ConsumerWidget {
                         children: [
                           Expanded(
                             flex: 1,
-                            child: Image.asset(itemBag[index].imgUrl),
+                            child: itemBag[index].image != null
+                                ? Image.memory(
+                                    base64Decode(itemBag[index].image!))
+                                : Container(),
                           ),
                           Expanded(
                             flex: 3,
@@ -54,10 +60,10 @@ class CardPage extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(itemBag[index].title,
+                                  Text(itemBag[index].name ?? "",
                                       style: ThemeConstant.kCardTitle),
                                   const Gap(6),
-                                  Text(itemBag[index].shortDescription,
+                                  Text(itemBag[index].description ?? "",
                                       style: ThemeConstant.kBodyText),
                                   const Gap(4),
                                   Text(
@@ -123,7 +129,8 @@ class CardPage extends ConsumerWidget {
                             color: kPrimaryColor),
                       ),
                       Text(
-                        '\$${ref.watch(priceCalcProvider)}',
+                        "",
+                        // '\$${ref.watch(priceCalcProvider)}',
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

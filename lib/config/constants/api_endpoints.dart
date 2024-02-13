@@ -26,4 +26,6 @@ class ApiEndpoints {
   // static const String deleteStudent = "auth/deleteStudent/";
   static const String imageUrl = "";
   static const String uploadImage = "";
+  static const String getAllProducts = "$baseUrl/product/getallproducts";
+  static const String getCategories = "$baseUrl/category/";
 }

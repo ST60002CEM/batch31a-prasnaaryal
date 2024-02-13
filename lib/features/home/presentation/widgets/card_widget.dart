@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/config/constants/themes.dart';
-import 'package:hamropasalmobile/controllers/itembag_controller.dart';
-import 'package:hamropasalmobile/controllers/product_controller.dart';
-import 'package:hamropasalmobile/model/product_model.dart';
+import 'package:hamropasalmobile/features/home/domain/use_case/controllers/itembag_controller.dart';
+import 'package:hamropasalmobile/features/home/domain/use_case/controllers/product_controller.dart';
 
 class ProductCardWidget extends ConsumerWidget {
   const ProductCardWidget({
@@ -47,7 +46,9 @@ class ProductCardWidget extends ConsumerWidget {
                   width: double.infinity,
                   margin: const EdgeInsets.all(12),
                   color: kLightBackground,
-                  child: Image.asset(product[productIndex].imgUrl),
+                  child: product[productIndex].image != null
+                      ? Image.asset(product[productIndex].image!)
+                      : Container(),
                 ),
               ),
               const Gap(4),
@@ -57,11 +58,11 @@ class ProductCardWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product[productIndex].title,
+                      product[productIndex].name ?? " ",
                       style: ThemeConstant.kCardTitle,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(product[productIndex].shortDescription,
+                    Text(product[productIndex].description ?? " ",
                         style: ThemeConstant.kBodyText),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,31 +73,31 @@ class ProductCardWidget extends ConsumerWidget {
                           onPressed: () {
                             ref
                                 .read(productNotifierProvider.notifier)
-                                .isSelectItem(
-                                    product[productIndex].pid, productIndex);
+                                .isSelectItem(0, productIndex);
 
-                            if (product[productIndex].isSelected == false) {
-                              ref.read(itemBagProvider.notifier).addNewItemBag(
-                                    ProductModel(
-                                        pid: product[productIndex].pid,
-                                        imgUrl: product[productIndex].imgUrl,
-                                        title: product[productIndex].title,
-                                        price: product[productIndex].price,
-                                        shortDescription: product[productIndex]
-                                            .shortDescription,
-                                        longDescription: product[productIndex]
-                                            .longDescription,
-                                        review: product[productIndex].review,
-                                        rating: product[productIndex].rating),
-                                  );
+                            if (product[productIndex].image == null) {
+                              // ref.read(itemBagProvider.notifier).addNewItemBag(
+                              //     //   ProductModel(
+                              //     //       pid: product[productIndex].pid,
+                              //     //       imgUrl: product[productIndex].imgUrl,
+                              //     //       title: product[productIndex].title,
+                              //     //       price: product[productIndex].price,
+                              //     //       shortDescription: product[productIndex]
+                              //     //           .shortDescription,
+                              //     //       longDescription: product[productIndex]
+                              //     //           .longDescription,
+                              //     //       review: product[productIndex].review,
+                              //     //       rating: product[productIndex].rating),
+                              //     // );
+                              //     );
                             } else {
                               ref
                                   .read(itemBagProvider.notifier)
-                                  .removeItem(product[productIndex].pid);
+                                  .removeItem(product[productIndex].iV ?? 0);
                             }
                           },
                           icon: Icon(
-                            product[productIndex].isSelected
+                            product[productIndex].image != null 
                                 ? Icons.check_circle
                                 : Icons.add_circle,
                             size: 30,

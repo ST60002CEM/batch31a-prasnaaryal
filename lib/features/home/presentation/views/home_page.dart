@@ -4,32 +4,45 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/config/constants/themes.dart';
-import 'package:hamropasalmobile/controllers/product_controller.dart';
-import 'package:hamropasalmobile/views/cart_page.dart';
-import 'package:hamropasalmobile/views/detail_page.dart';
-import 'package:hamropasalmobile/widgets/ads_banner_widget.dart';
-import 'package:hamropasalmobile/widgets/card_widget.dart';
-import 'package:hamropasalmobile/widgets/chip_widget.dart';
-
-import '../controllers/itembag_controller.dart';
+import 'package:hamropasalmobile/features/home/domain/use_case/controllers/itembag_controller.dart';
+import 'package:hamropasalmobile/features/home/domain/use_case/controllers/product_controller.dart';
+import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/cart_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/detail_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/widgets/ads_banner_widget.dart';
+import 'package:hamropasalmobile/features/home/presentation/widgets/card_widget.dart';
+import 'package:hamropasalmobile/features/home/presentation/widgets/chip_widget.dart';
 
 final currentIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
-//   @override
-//   HomePageState createState() => HomePageState();
-// }
-
-// class HomePageState extends State<HomePage> {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomePage();
+}
+
+class _HomePage extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(homeViewModelProvider.notifier).getCategory();
+      ref.read(homeViewModelProvider.notifier).getProduct();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final products = ref.watch(productNotifierProvider);
     final currentIndex = ref.watch(currentIndexProvider);
     final itemBag = ref.watch(itemBagProvider);
+
+    final categories = ref.watch(
+      homeViewModelProvider.select((p) => p.category?.categories),
+    );
 
     final ScrollController scrollController = ScrollController();
 
@@ -79,25 +92,29 @@ class HomePage extends ConsumerWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  children: const [
-                    ChipWidget(
-                      chipLabel: 'All',
-                    ),
-                    ChipWidget(
-                      chipLabel: 'Computers',
-                    ),
-                    ChipWidget(
-                      chipLabel: 'Headsets',
-                    ),
-                    ChipWidget(
-                      chipLabel: 'Accessories',
-                    ),
-                    ChipWidget(
-                      chipLabel: 'Printing',
-                    ),
-                    ChipWidget(
-                      chipLabel: 'Gamers',
-                    )
+                  children: [
+                    ...categories
+                            ?.map((c) => ChipWidget(chipLabel: c.toString()))
+                            .toList() ??
+                        [],
+                    // ChipWidget(
+                    //   chipLabel: 'All',
+                    // ),
+                    // ChipWidget(
+                    //   chipLabel: 'Computers',
+                    // ),
+                    // ChipWidget(
+                    //   chipLabel: 'Headsets',
+                    // ),
+                    // ChipWidget(
+                    //   chipLabel: 'Accessories',
+                    // ),
+                    // ChipWidget(
+                    //   chipLabel: 'Printing',
+                    // ),
+                    // ChipWidget(
+                    //   chipLabel: 'Gamers',
+                    // )
                   ],
                 ),
               ),

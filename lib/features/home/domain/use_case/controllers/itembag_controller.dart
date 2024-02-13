@@ -1,9 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hamropasalmobile/model/product_model.dart';
+import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 
-List<ProductModel> itembag = [
-  
-];
+List<ProductModel> itembag = [];
 
 class ItemBagNotifier extends StateNotifier<List<ProductModel>> {
   ItemBagNotifier() : super(itembag);
@@ -19,7 +17,7 @@ class ItemBagNotifier extends StateNotifier<List<ProductModel>> {
   void removeItem(int pid) {
     state = [
       for (final product in state)
-        if (product.pid != pid) product,
+        if (product.iV != pid) product,
     ];
   }
 }
@@ -34,7 +32,7 @@ final priceCalcProvider = StateProvider<double>((ref) {
 
   double sum = 0;
   for (var element in itemBag) {
-    sum += element.price;
+    sum += int.parse(element.price ?? "0");
   }
   return sum;
 });

@@ -4,7 +4,7 @@ import 'package:hamropasalmobile/config/router/app_route.dart';
 import 'package:hamropasalmobile/config/themes/app_theme.dart';
 import 'package:hamropasalmobile/features/auth/domain/repository/auth_repository.dart';
 import 'package:hamropasalmobile/features/auth/presentation/view/login_view.dart';
-import 'package:hamropasalmobile/views/home_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
 
 import '../features/auth/domain/use_case/auth_status_usecase.dart';
 

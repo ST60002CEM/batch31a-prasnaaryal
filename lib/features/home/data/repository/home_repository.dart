@@ -1,0 +1,59 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hamropasalmobile/core/failure/failure.dart';
+import 'package:hamropasalmobile/features/home/data/data_source/home_local_data_source.dart';
+import 'package:hamropasalmobile/features/home/data/data_source/home_remote_data_source.dart';
+import 'package:hamropasalmobile/features/home/data/model/category_model.dart';
+import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/category_entity.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
+import 'package:hamropasalmobile/features/home/domain/repository/home_repository.dart';
+
+final homeRepositoryProvider = Provider<IHomeRepository>(
+  (ref) => HomeRepository(
+    homeLocalDataSource: ref.read(homeLocalDataSourceProvider),
+    homeRemoteDataSource: ref.read(homeRemoteDataSourceProvider),
+  ),
+);
+
+class HomeRepository implements IHomeRepository {
+  final HomeLocalDataSource _homeLocalDataSource;
+  final HomeRemoteDataSource _homeRemoteDataSource;
+
+  HomeRepository(
+      {required HomeLocalDataSource homeLocalDataSource,
+      required HomeRemoteDataSource homeRemoteDataSource})
+      : _homeLocalDataSource = homeLocalDataSource,
+        _homeRemoteDataSource = homeRemoteDataSource;
+
+  @override
+  Future<Either<Failure, CategoryEntity>> getCategory() async {
+    try {
+      var category = await _homeLocalDataSource.getCategories();
+      if (category != null) {
+        return Right(category.toEntity());
+      }
+      var newCategories = await _homeRemoteDataSource.getCategories();
+      await _homeLocalDataSource.saveCategories(newCategories);
+      return Right(newCategories.toEntity());
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getProducts() async{
+     try {
+      var products = await _homeLocalDataSource.getProducts();
+      if (products.isNotEmpty) {
+        return Right(products.map((e) => e.toEntity()).toList());
+      }
+      var newProducts = await _homeRemoteDataSource.getProducts();
+      await _homeLocalDataSource.saveProducts(newProducts);
+      return Right(newProducts.map((e) => e.toEntity()).toList());
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+}

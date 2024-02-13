@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:hamropasalmobile/controllers/product_controller.dart';
-import 'package:hamropasalmobile/views/home_page.dart';
+import 'package:hamropasalmobile/features/home/domain/use_case/controllers/product_controller.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
 
-import '../config/constants/themes.dart';
+import '../../../../config/constants/themes.dart';
 
 class DetailsPage extends ConsumerWidget {
   DetailsPage({super.key, required this.getIndex});
@@ -43,7 +45,9 @@ class DetailsPage extends ConsumerWidget {
               height: 300,
               width: double.infinity,
               color: kLightBackground,
-              child: Image.asset(product[getIndex].imgUrl),
+              child: product[getIndex].image != null
+                  ? Image.memory(base64Decode(product[getIndex].image!))
+                  : Container(),
             ),
             Container(
                 padding: const EdgeInsets.all(30),
@@ -51,8 +55,9 @@ class DetailsPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product[getIndex].title,
-                      style: ThemeConstant.kBigTitle.copyWith(color: kPrimaryColor),
+                      product[getIndex].name ?? "",
+                      style: ThemeConstant.kBigTitle
+                          .copyWith(color: kPrimaryColor),
                     ),
                     const Gap(12),
                     Row(
@@ -78,13 +83,13 @@ class DetailsPage extends ConsumerWidget {
                     ),
                     const Gap(8),
                     Text(
-                      product[getIndex].longDescription,
+                      product[getIndex].description ?? " ",
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            'Rs ${product[getIndex].price * product[getIndex].qty}',
+                            'Rs ${int.parse(product[getIndex].price ?? "0") * 1}',
                             style: ThemeConstant.kHeadingOne),
                         Container(
                           child: Row(
@@ -93,20 +98,20 @@ class DetailsPage extends ConsumerWidget {
                                 onPressed: () {
                                   ref
                                       .read(productNotifierProvider.notifier)
-                                      .decreaseQty(product[getIndex].pid);
+                                      .decreaseQty(1);
                                 },
                                 icon: const Icon(
                                     Icons.do_not_disturb_on_outlined,
                                     size: 30),
                               ),
-                              Text(product[getIndex].qty.toString(),
+                              Text(product[getIndex].toString(),
                                   style: ThemeConstant.kCardTitle
                                       .copyWith(fontSize: 24)),
                               IconButton(
                                 onPressed: () {
                                   ref
                                       .read(productNotifierProvider.notifier)
-                                      .incrementQty(product[getIndex].pid);
+                                      .incrementQty(1);
                                 },
                                 icon: const Icon(Icons.add_circle_outline,
                                     size: 30),

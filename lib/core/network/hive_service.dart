@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/config/constants/hive_table_constant.dart';
-import 'package:hamropasalmobile/features/auth/data/model/auth_hive_model.dart';
+import 'package:hamropasalmobile/features/home/data/model/category_model.dart';
+import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -15,45 +16,38 @@ class HiveService {
     Hive.init(directory.path);
 
     // Register Adapters
-    Hive.registerAdapter(AuthHiveModelAdapter());
+    Hive.registerAdapter(CategoryModelAdapter());
+    Hive.registerAdapter(ProductModelAdapter());
   }
 
-  // ======================== Auth Queries ========================
-
-  Future<void> registerUser(AuthHiveModel auth) async {
-    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);
-    await box.put(auth.userId, auth);
-  }
-
-  // Login
-  Future<bool> loginUser(String email, String password) async {
-    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);
-    var auths = box.values.toList();
-    var auth = auths.firstWhere(
-      (element) => element.email == email && element.password == password,
-      orElse: () => AuthHiveModel.empty(),
-    );
-
-    if (auth == AuthHiveModel.empty()) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  Future<List<AuthHiveModel>> getAllUsers() async {
-    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);
-    var auths = box.values.toList();
-    return auths;
-  }
-
-  Future<void> deleteUser(String userId) async {
-    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);
-    await box.delete(userId);
-  }
-
-  // Delete hive
+  // // Delete hive
   Future<void> deleteHive() async {
-    await Hive.deleteBoxFromDisk(HiveTableConstant.userBox);
+    await Hive.deleteFromDisk();
+  }
+
+  Future<void> saveCategories(CategoryModel categoryModel) async {
+    var box = await Hive.openBox<CategoryModel>(HiveTableConstant.categoryBox);
+    box.add(categoryModel);
+  }
+
+  Future<CategoryModel?> getCategories() async {
+    var box = await Hive.openBox<CategoryModel>(HiveTableConstant.categoryBox);
+    if (box.values.isEmpty) {
+      return null;
+    }
+    return box.values.first;
+  }
+
+  Future<void> saveProducts(List<ProductModel> products) async {
+    var box = await Hive.openBox<ProductModel>(HiveTableConstant.productBox);
+    box.addAll(products);
+  }
+
+  Future<List<ProductModel>> getProducts() async {
+    var box = await Hive.openBox<ProductModel>(HiveTableConstant.productBox);
+    if (box.values.isEmpty) {
+      return [];
+    }
+    return box.values.toList();
   }
 }

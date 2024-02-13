@@ -1,6 +1,6 @@
 import 'package:hamropasalmobile/features/auth/presentation/view/login_view.dart';
 import 'package:hamropasalmobile/features/auth/presentation/view/register_view.dart';
-import 'package:hamropasalmobile/views/home_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
 
 class AppRoute {
   AppRoute._();
