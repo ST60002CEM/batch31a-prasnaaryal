@@ -22,17 +22,15 @@ class HomeViewModelProvider extends StateNotifier<HomeState> {
         _getProductUsecase = getProductUsecase,
         super(HomeState.initial());
 
-  
-
   Future<void> getCategory() async {
     var response = await _getCategoryUseCase.getCategory();
-    response.fold((l) => state.copyWith(error: l.error),
-        (r) => state.copyWith(category: r));
+    response.fold((l) => state = state.copyWith(error: l.error),
+        (r) => state = state.copyWith(category: r));
   }
 
   Future<void> getProduct() async {
     var response = await _getProductUsecase.getProducts();
-    response.fold((l) => state.copyWith(error: l.error),
-        (r) => state.copyWith(products: r));
+    response.fold((l) => state = state.copyWith(error: l.error),
+        (r) => state = state.copyWith(products: r));
   }
 }
