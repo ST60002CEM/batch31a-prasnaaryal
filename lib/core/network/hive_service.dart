@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/config/constants/hive_table_constant.dart';
+import 'package:hamropasalmobile/features/home/data/model/cart_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/category_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,6 +19,7 @@ class HiveService {
     // Register Adapters
     Hive.registerAdapter(CategoryModelAdapter());
     Hive.registerAdapter(ProductModelAdapter());
+    Hive.registerAdapter(CartModelAdapter());
   }
 
   // // Delete hive
@@ -49,5 +51,60 @@ class HiveService {
       return [];
     }
     return box.values.toList();
+  }
+
+  Future<void> removeFromCart(ProductModel productModel) async {
+    var box = await Hive.openBox<CartModel>(HiveTableConstant.cartBox);
+
+    // Use indexWhere with custom equality check
+    int indexToRemove = box.values.toList().indexWhere(
+          (item) =>
+              item.productModel.name == productModel.name &&
+              item.productModel.price == productModel.price &&
+              item.productModel.category == productModel.category,
+          // Add other fields for equality check if needed
+        );
+
+    if (indexToRemove != -1) {
+      CartModel removedItem = box.getAt(indexToRemove)!;
+
+      // Adjusted the logic to correctly handle removing items
+      if (removedItem.count <= 1) {
+        // If the count is 1 or less, remove the item from the cart
+        await box.deleteAt(indexToRemove);
+      } else {
+        // Otherwise, decrement the count
+        removedItem.count -= 1;
+        await box.putAt(indexToRemove, removedItem);
+      }
+    }
+  }
+
+  Future<CartModel> addToCart(ProductModel productModel) async {
+    var box = await Hive.openBox<CartModel>(HiveTableConstant.cartBox);
+
+    int existingIndex = box.values.toList().indexWhere(
+          (item) =>
+              item.productModel.name == productModel.name &&
+              item.productModel.price == productModel.price &&
+              item.productModel.category == productModel.category,
+        );
+
+    if (existingIndex != -1) {
+      CartModel existingItem = box.getAt(existingIndex)!;
+      existingItem.count += 1;
+      await box.putAt(existingIndex, existingItem);
+      return existingItem;
+    } else {
+      var cartModel = CartModel(count: 1, productModel: productModel);
+      await box.add(cartModel);
+      return cartModel;
+    }
+  }
+
+  Future<List<CartModel>> getAllCart() async {
+    var box = await Hive.openBox<CartModel>(HiveTableConstant.cartBox);
+    List<CartModel> cartItems = box.values.toList();
+    return cartItems;
   }
 }

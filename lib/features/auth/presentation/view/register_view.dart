@@ -53,9 +53,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    // final batchState = ref.watch(batchViewModelProvider);
-    // final courseState = ref.watch(courseViewModelProvider);
-    // final isConnected = ref.watch(connectivityStatusProvider);
+   
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // if (isConnected == ConnectivityStatus.isDisconnected) {
       //   showSnackBar(
@@ -214,61 +212,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                         ),
                       ),
                       const Gap(10),
-                      // batchState.isLoading
-                      //     ? const Center(child: CircularProgressIndicator())
-                      //     : DropdownButtonFormField(
-                      //         hint: const Text('Select batch'),
-                      //         items: batchState.batches
-                      //             .map(
-                      //               (batch) => DropdownMenuItem<BatchEntity>(
-                      //                 value: batch,
-                      //                 child: Text(batch.batchName),
-                      //               ),
-                      //             )
-                      //             .toList(),
-                      //         onChanged: (value) {
-                      //           selectedBatch = value;
-                      //         },
-                      //         decoration: const InputDecoration(
-                      //           labelText: 'Select Batch',
-                      //         ),
-                      //       ),
-                      // _gap,
-                      // courseState.isLoading
-                      //     ? const Center(
-                      //         child: CircularProgressIndicator(),
-                      //       )
-                      //     : MultiSelectDialogField(
-                      //         title: const Text('Select course(s)'),
-                      //         items: courseState.courses
-                      //             .map(
-                      //               (course) => MultiSelectItem(
-                      //                 course,
-                      //                 course.courseName,
-                      //               ),
-                      //             )
-                      //             .toList(),
-                      //         listType: MultiSelectListType.CHIP,
-                      //         buttonText: const Text('Select course(s)'),
-                      //         buttonIcon: const Icon(Icons.search),
-                      //         onConfirm: (values) {
-                      //           _lstCourseSelected.clear();
-                      //           _lstCourseSelected.addAll(values);
-                      //         },
-                      //         decoration: BoxDecoration(
-                      //           border: Border.all(
-                      //             color: Colors.grey,
-                      //           ),
-                      //           borderRadius: BorderRadius.circular(5),
-                      //         ),
-                      //         validator: ((value) {
-                      //           if (value == null || value.isEmpty) {
-                      //             return 'Please select courses';
-                      //           }
-                      //           return null;
-                      //         }),
-                      //       ),
-
                       SizedBox(
                         width: 330, // Set your desired width here
                         child: TextFormField(

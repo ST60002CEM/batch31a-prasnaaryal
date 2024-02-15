@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/core/network/hive_service.dart';
+import 'package:hamropasalmobile/features/home/data/model/cart_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/category_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 
@@ -22,4 +23,14 @@ class HomeLocalDataSource {
       _hiveService.saveProducts(productModel);
 
   Future<List<ProductModel>> getProducts() => _hiveService.getProducts();
+
+  Future<CartModel> addToCart(ProductModel cartModel) =>
+      _hiveService.addToCart(cartModel);
+  
+  Future<void> removeFromCart(ProductModel cartModel) =>
+      _hiveService.removeFromCart(cartModel);
+  
+  Future<List<CartModel>> getAllCart() => _hiveService.getAllCart();
+  
+
 }

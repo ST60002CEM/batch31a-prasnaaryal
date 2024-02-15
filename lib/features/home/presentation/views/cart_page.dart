@@ -1,19 +1,53 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
+import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
 
 import '../../../../config/constants/themes.dart';
 import '../../domain/use_case/controllers/itembag_controller.dart';
 
-
 class CardPage extends ConsumerWidget {
   const CardPage({super.key});
+
+  Widget _generateProductImage(String? image) {
+    if (image == null) {
+      return Container();
+    }
+
+    if (image.contains("http://") || image.contains("https://")) {
+      return Image.network(image);
+    }
+    if (image.contains("data:image:") || image.contains("data:")) {
+      Uint8List bytes = base64.decode(image.split(',').last);
+      return Image.memory(bytes);
+    }
+    return Container();
+  }
+
+  double _calculateTotal(List<CartEntity>? cartItems) {
+    if (cartItems == null) {
+      return 0.0;
+    }
+    // Use fold to sum up the total value of items in the cart
+    double total = cartItems.fold(0, (sum, item) {
+      return sum + (int.parse(item.productModel.price ?? "0") * item.count);
+    });
+
+    return total;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final itemBag = ref.watch(itemBagProvider);
+
+    final homeProvider = ref.watch(homeViewModelProvider);
+    final cartItems = homeProvider.cartItems;
+    double totalValue = _calculateTotal(cartItems);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
@@ -38,7 +72,7 @@ class CardPage extends ConsumerWidget {
           child: Container(
               padding: const EdgeInsets.all(20),
               child: ListView.builder(
-                itemCount: itemBag.length,
+                itemCount: cartItems?.length ?? 0,
                 itemBuilder: (context, index) => Card(
                   child: Container(
                       color: Colors.white,
@@ -47,10 +81,8 @@ class CardPage extends ConsumerWidget {
                         children: [
                           Expanded(
                             flex: 1,
-                            child: itemBag[index].image != null
-                                ? Image.memory(
-                                    base64Decode(itemBag[index].image!))
-                                : Container(),
+                            child: _generateProductImage(
+                                cartItems?[index].productModel.image),
                           ),
                           Expanded(
                             flex: 3,
@@ -60,14 +92,19 @@ class CardPage extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(itemBag[index].name ?? "",
+                                  Text(
+                                      cartItems?[index].productModel.name ?? "",
                                       style: ThemeConstant.kCardTitle),
                                   const Gap(6),
-                                  Text(itemBag[index].description ?? "",
+                                  Text(
+                                      cartItems?[index]
+                                              .productModel
+                                              .description ??
+                                          "",
                                       style: ThemeConstant.kBodyText),
                                   const Gap(4),
                                   Text(
-                                    'Rs ${itemBag[index].price}',
+                                    'Rs ${cartItems?[index].productModel.price}',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   )
@@ -129,8 +166,7 @@ class CardPage extends ConsumerWidget {
                             color: kPrimaryColor),
                       ),
                       Text(
-                        "",
-                        // '\$${ref.watch(priceCalcProvider)}',
+                        totalValue.toString(),
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -1,3 +1,4 @@
+import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/category_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 
@@ -7,6 +8,7 @@ class HomeState {
   final List<ProductEntity>? products;
   final CategoryEntity? category;
   final bool? showMessage;
+  final List<CartEntity>? cartItems;
 
   HomeState({
     required this.isLoading,
@@ -14,32 +16,32 @@ class HomeState {
     this.products,
     this.category,
     this.showMessage,
+    this.cartItems,
   });
 
   factory HomeState.initial() {
     return HomeState(
-      isLoading: false,
-      error: null,
-      products: null,
-      category: null,
-      showMessage: false,
-    );
+        isLoading: false,
+        error: null,
+        products: null,
+        category: null,
+        showMessage: false,
+        cartItems: []);
   }
 
-  HomeState copyWith({
-    bool? isLoading,
-    String? error,
-    List<ProductEntity>? products,
-    CategoryEntity? category,
-    bool? showMessage,
-  }) {
+  HomeState copyWith({bool? isLoading,
+      String? error,
+      List<ProductEntity>? products,
+      CategoryEntity? category,
+      bool? showMessage,
+      List<CartEntity>? cartItems}) {
     return HomeState(
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-      products: products ?? this.products,
-      category: category ?? this.category,
-      showMessage: showMessage ?? this.showMessage,
-    );
+        isLoading: isLoading ?? this.isLoading,
+        error: error ?? this.error,
+        products: products ?? this.products,
+        category: category ?? this.category,
+        showMessage: showMessage ?? this.showMessage,
+        cartItems: cartItems ?? this.cartItems);
   }
 
   @override

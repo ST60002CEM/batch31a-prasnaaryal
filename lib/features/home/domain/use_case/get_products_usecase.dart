@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/core/failure/failure.dart';
-import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 import 'package:hamropasalmobile/features/home/data/repository/home_repository.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/repository/home_repository.dart';

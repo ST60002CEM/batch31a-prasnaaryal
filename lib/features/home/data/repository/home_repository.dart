@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/core/failure/failure.dart';
 import 'package:hamropasalmobile/features/home/data/data_source/home_local_data_source.dart';
 import 'package:hamropasalmobile/features/home/data/data_source/home_remote_data_source.dart';
-import 'package:hamropasalmobile/features/home/data/model/category_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/category_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/repository/home_repository.dart';
@@ -41,10 +41,9 @@ class HomeRepository implements IHomeRepository {
     }
   }
 
-
   @override
-  Future<Either<Failure, List<ProductEntity>>> getProducts() async{
-     try {
+  Future<Either<Failure, List<ProductEntity>>> getProducts() async {
+    try {
       var products = await _homeLocalDataSource.getProducts();
       if (products.isNotEmpty) {
         return Right(products.map((e) => e.toEntity()).toList());
@@ -52,6 +51,40 @@ class HomeRepository implements IHomeRepository {
       var newProducts = await _homeRemoteDataSource.getProducts();
       await _homeLocalDataSource.saveProducts(newProducts);
       return Right(newProducts.map((e) => e.toEntity()).toList());
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CartEntity>>> getFromCart() async {
+    try {
+      var cartItems = await _homeLocalDataSource.getAllCart();
+      if (cartItems.isNotEmpty) {
+        return Right(cartItems.map((e) => e.toEntity()).toList());
+      }
+      return const Right([]);
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeFromCart(ProductEntity entity) async {
+    try {
+      await _homeLocalDataSource.removeFromCart(ProductModel.fromEntity(entity));
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CartEntity>>> addToCart(ProductEntity entity) async {
+    try {
+      await _homeLocalDataSource.addToCart(ProductModel.fromEntity(entity));
+      var cartItems = await _homeLocalDataSource.getAllCart();
+      return Right(cartItems.map((e) => e.toEntity()).toList());
     } catch (e) {
       return Left(Failure(error: e.toString()));
     }

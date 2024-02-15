@@ -1,10 +1,11 @@
+import 'package:hamropasalmobile/config/constants/hive_table_constant.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/category_entity.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'category_model.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 1)
+@HiveType(typeId: HiveTableConstant.categoryTableId)
 class CategoryModel extends HiveObject {
   @HiveField(0)
   int? count;

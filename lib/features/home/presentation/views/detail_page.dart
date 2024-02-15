@@ -1,23 +1,59 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:hamropasalmobile/features/home/domain/use_case/controllers/product_controller.dart';
-import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
+import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
 
 import '../../../../config/constants/themes.dart';
 
 class DetailsPage extends ConsumerWidget {
-  DetailsPage({super.key, required this.getIndex});
+  final ProductEntity productEntity;
+  final List<CartEntity>? cartEntity;
+  const DetailsPage({
+    super.key,
+    required this.productEntity,
+    required this.cartEntity,
+  });
 
-  int getIndex;
+  int _getCountInCart(
+      ProductEntity productEntity, List<CartEntity>? cartEntity) {
+    if (cartEntity == null || cartEntity.isEmpty) {
+      return 0;
+    }
+
+    // Find the cartItem based on the productEntity
+    var cartItem = cartEntity.firstWhere(
+      (item) => item.productModel == productEntity,
+      orElse: () => CartEntity(count: 0, productModel: productEntity),
+    );
+
+    return cartItem.count;
+  }
+
+  Widget _generateProductImage(String? image) {
+    if (image == null) {
+      return Container();
+    }
+
+    if (image.contains("http://") || image.contains("https://")) {
+      return Image.network(image);
+    }
+    if (image.contains("data:image:") || image.contains("data:")) {
+      Uint8List bytes = base64.decode(image.split(',').last);
+      return Image.memory(bytes);
+    }
+    return Container();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIndex = ref.watch(currentIndexProvider);
-    final product = ref.watch(productNotifierProvider);
+    final cartEntity = ref.watch(homeViewModelProvider);
+    int cartItem = _getCountInCart(productEntity, cartEntity.cartItems);
 
     return Scaffold(
       appBar: AppBar(
@@ -45,9 +81,7 @@ class DetailsPage extends ConsumerWidget {
               height: 300,
               width: double.infinity,
               color: kLightBackground,
-              child: product[getIndex].image != null
-                  ? Image.memory(base64Decode(product[getIndex].image!))
-                  : Container(),
+              child: _generateProductImage(productEntity.image),
             ),
             Container(
                 padding: const EdgeInsets.all(30),
@@ -55,7 +89,7 @@ class DetailsPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product[getIndex].name ?? "",
+                      productEntity.name ?? "",
                       style: ThemeConstant.kBigTitle
                           .copyWith(color: kPrimaryColor),
                     ),
@@ -83,41 +117,37 @@ class DetailsPage extends ConsumerWidget {
                     ),
                     const Gap(8),
                     Text(
-                      product[getIndex].description ?? " ",
+                      productEntity.description ?? " ",
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            'Rs ${int.parse(product[getIndex].price ?? "0") * 1}',
+                        Text('Rs ${int.parse(productEntity.price ?? "0") * 1}',
                             style: ThemeConstant.kHeadingOne),
-                        Container(
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  ref
-                                      .read(productNotifierProvider.notifier)
-                                      .decreaseQty(1);
-                                },
-                                icon: const Icon(
-                                    Icons.do_not_disturb_on_outlined,
-                                    size: 30),
-                              ),
-                              Text(product[getIndex].toString(),
-                                  style: ThemeConstant.kCardTitle
-                                      .copyWith(fontSize: 24)),
-                              IconButton(
-                                onPressed: () {
-                                  ref
-                                      .read(productNotifierProvider.notifier)
-                                      .incrementQty(1);
-                                },
-                                icon: const Icon(Icons.add_circle_outline,
-                                    size: 30),
-                              ),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                ref
+                                    .read(homeViewModelProvider.notifier)
+                                    .removeFromCart(productEntity);
+                              },
+                              icon: const Icon(Icons.do_not_disturb_on_outlined,
+                                  size: 30),
+                            ),
+                            Text(cartItem.toString(),
+                                style: ThemeConstant.kCardTitle
+                                    .copyWith(fontSize: 24)),
+                            IconButton(
+                              onPressed: () {
+                                ref
+                                    .read(homeViewModelProvider.notifier)
+                                    .addToCart(productEntity);
+                              },
+                              icon: const Icon(Icons.add_circle_outline,
+                                  size: 30),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -136,40 +166,6 @@ class DetailsPage extends ConsumerWidget {
                 ))
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (value) =>
-            ref.read(currentIndexProvider.notifier).update((state) => value),
-        selectedItemColor: kPrimaryColor,
-        unselectedItemColor: kSecondaryColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-            activeIcon: Icon(Icons.home_filled),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            label: 'Favorite',
-            activeIcon: Icon(Icons.favorite),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on_outlined),
-            label: 'Location',
-            activeIcon: Icon(Icons.location_on),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            label: 'Notification',
-            activeIcon: Icon(Icons.notifications),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-            activeIcon: Icon(Icons.person),
-          ),
-        ],
       ),
     );
   }
