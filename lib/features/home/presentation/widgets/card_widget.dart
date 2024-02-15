@@ -40,11 +40,15 @@ class ProductCardWidget extends ConsumerWidget {
     return Container();
   }
 
-  CartEntity? _getCartEntity(ProductEntity productEntity) {
-    if (cartItes
-        .any((element) => element.productModel.sId == productEntity.sId)) {
-      return cartItes.firstWhere(
-          (element) => element.productModel.sId == productEntity.sId);
+  CartEntity? _getCartEntity(ProductEntity productModel) {
+    if (cartItes.any((item) =>
+        item.productModel.name == productModel.name &&
+        item.productModel.price == productModel.price &&
+        item.productModel.category == productModel.category)) {
+      return cartItes.firstWhere((item) =>
+          item.productModel.name == productModel.name &&
+          item.productModel.price == productModel.price &&
+          item.productModel.category == productModel.category);
     } else {
       return null;
     }

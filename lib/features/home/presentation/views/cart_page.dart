@@ -42,8 +42,6 @@ class CardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemBag = ref.watch(itemBagProvider);
-
     final homeProvider = ref.watch(homeViewModelProvider);
     final cartItems = homeProvider.cartItems;
     double totalValue = _calculateTotal(cartItems);
