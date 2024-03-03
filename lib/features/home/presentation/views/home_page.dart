@@ -273,7 +273,9 @@ class _HomePage extends ConsumerState<HomePage> {
                       TextButton(
                         child: const Text('yes'),
                         onPressed: () {
+                         
                           Navigator.of(ctx).pop();
+                          
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) => LoginView()));
                         },

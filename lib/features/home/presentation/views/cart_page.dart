@@ -70,7 +70,7 @@ ShakeDetector detector = ShakeDetector.autoStart(
       // Instead of casting, check the type
       if (lastItem is ProductEntity) {
         // If lastItem is a ProductEntity, it's safe to use it as one
-        ProductEntity productEntity = lastItem;
+        ProductEntity productEntity = lastItem.productModel;
 
         // Proceed to remove the product from the cart
         await ref
@@ -92,8 +92,6 @@ ShakeDetector detector = ShakeDetector.autoStart(
   shakeCountResetTime: 3000,
   shakeThresholdGravity: 2.7,
 );
-
-
 
     return Scaffold(
       appBar: AppBar(

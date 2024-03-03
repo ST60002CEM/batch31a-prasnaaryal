@@ -29,7 +29,7 @@ class App extends ConsumerWidget {
         Locale('en', 'US'),
         Locale('ne', 'NP'),
       ],
-      localizationsDelegates: [
+      localizationsDelegates: const [
         KhaltiLocalizations.delegate,
       ],
       onGenerateInitialRoutes: (String initialRoute) {

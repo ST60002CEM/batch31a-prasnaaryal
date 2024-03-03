@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
 import 'package:hamropasalmobile/features/home/presentation/state/home_state.dart';
 
+import '../../../auth/presentation/view/login_view.dart';
+
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -109,8 +111,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               height: 40,
             ),
             ElevatedButton(
-              onPressed: () async {
-                await ref.read(homeViewModelProvider.notifier).logOut();
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("You pressed Logout"),
+                    content: const Text("Are you sure you want to logout?"),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('yes'),
+                        onPressed: () async {
+                          await ref
+                              .read(homeViewModelProvider.notifier)
+                              .logOut()
+                              .then(
+                                (value) => {
+                                  Navigator.of(ctx).pop(),
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const LoginView(),
+                                    ),
+                                  )
+                                },
+                              );
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('No'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                );
               },
               child: const Text('Logout'),
             ),

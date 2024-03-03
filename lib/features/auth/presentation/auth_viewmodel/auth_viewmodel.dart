@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/config/router/app_route.dart';
@@ -7,6 +8,7 @@ import 'package:hamropasalmobile/features/auth/domain/use_case/login_usecase.dar
 import 'package:hamropasalmobile/features/auth/domain/use_case/register_usecase.dart';
 import 'package:hamropasalmobile/features/auth/domain/use_case/upload_image_usecase.dart';
 import 'package:hamropasalmobile/features/auth/presentation/state/auth_state.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/bottom_tab_bar.dart';
 
 final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>(
   (ref) => AuthViewModel(
@@ -75,7 +77,13 @@ class AuthViewModel extends StateNotifier<AuthState> {
           error: null,
         );
 
-        Navigator.popAndPushNamed(context, AppRoute.homeRoute);
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (bldr) => const PersistentBottomNavigationBar(),
+          ),
+        );
       },
     );
   }
