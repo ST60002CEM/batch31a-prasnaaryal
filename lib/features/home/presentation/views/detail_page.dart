@@ -2,22 +2,33 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/cart_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
 
 import '../../../../config/constants/themes.dart';
+import '../../domain/entity/favorite_entity.dart';
+
+// final currentIndexProvider =
+//     NotifierProvider<BottomNavgationNotifier, int>((ref) {
+//   return BottomNavgationNotifier();
+// });
 
 class DetailsPage extends ConsumerWidget {
   final ProductEntity productEntity;
   final List<CartEntity>? cartEntity;
+  final List<FavoriteEntity>? favoriteEntity;
   const DetailsPage({
     super.key,
     required this.productEntity,
     required this.cartEntity,
+    required this.favoriteEntity,
   });
 
   int _getCountInCart(
@@ -33,6 +44,21 @@ class DetailsPage extends ConsumerWidget {
     );
 
     return cartItem.count;
+  }
+
+  int _getCountInFavorite(
+      ProductEntity productEntity, List<FavoriteEntity>? favoriteEntity) {
+    if (favoriteEntity == null || favoriteEntity.isEmpty) {
+      return 0;
+    }
+
+    // Find the cartItem based on the productEntity
+    var favoriteItem = favoriteEntity.firstWhere(
+      (item) => item.productModel == productEntity,
+      orElse: () => FavoriteEntity(count: 0, productModel: productEntity),
+    );
+
+    return favoriteItem.count;
   }
 
   Widget _generateProductImage(String? image) {
@@ -53,7 +79,12 @@ class DetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartEntity = ref.watch(homeViewModelProvider);
+    final cartItems = cartEntity.cartItems;
+    final favoriteEntity = ref.watch(homeViewModelProvider);
+
     int cartItem = _getCountInCart(productEntity, cartEntity.cartItems);
+    int favoriteItem =
+        _getCountInFavorite(productEntity, favoriteEntity.favoriteItems);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,9 +97,21 @@ class DetailsPage extends ConsumerWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.local_mall_outlined),
+            child: Badge(
+              label: Text(cartItems?.length.toString() ?? "0"),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CardPage(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.local_mall,
+                ),
+              ),
             ),
           )
         ],
@@ -124,28 +167,51 @@ class DetailsPage extends ConsumerWidget {
                       children: [
                         Text('Rs ${int.parse(productEntity.price ?? "0") * 1}',
                             style: ThemeConstant.kHeadingOne),
+                        // Row(
+                        //   children: [
+                        //     IconButton(
+                        //       onPressed: () {
+                        //         ref
+                        //             .read(homeViewModelProvider.notifier)
+                        //             .removeFromCart(productEntity);
+                        //       },
+                        //       icon: const Icon(PhosphorIcons.caret_circle_down,
+                        //           size: 30),
+                        //     ),
+                        //     Text(cartItem.toString(),
+                        //         style: ThemeConstant.kCardTitle
+                        //             .copyWith(fontSize: 24)),
+                        //     IconButton(
+                        //       onPressed: () {
+                        //         ref
+                        //             .read(homeViewModelProvider.notifier)
+                        //             .addToCart(productEntity);
+                        //       },
+                        //       icon: const Icon(PhosphorIcons.caret_circle_up,
+                        //           size: 30),
+                        //     ),
+                        //   ],
+                        // ),
                         Row(
                           children: [
+                            // IconButton(
+                            //   onPressed: () {
+                            //     ref
+                            //         .read(homeViewModelProvider.notifier)
+                            //         .removeFromFavorite(productEntity);
+                            //   },
+                            //   icon: const Icon(Icons.add, size: 30),
+                            // ),
+                            // Text(favoriteItem.toString(),
+                            //     style: ThemeConstant.kCardTitle
+                            //         .copyWith(fontSize: 24)),
                             IconButton(
                               onPressed: () {
                                 ref
                                     .read(homeViewModelProvider.notifier)
-                                    .removeFromCart(productEntity);
+                                    .addToFavorite(productEntity);
                               },
-                              icon: const Icon(Icons.do_not_disturb_on_outlined,
-                                  size: 30),
-                            ),
-                            Text(cartItem.toString(),
-                                style: ThemeConstant.kCardTitle
-                                    .copyWith(fontSize: 24)),
-                            IconButton(
-                              onPressed: () {
-                                ref
-                                    .read(homeViewModelProvider.notifier)
-                                    .addToCart(productEntity);
-                              },
-                              icon: const Icon(Icons.add_circle_outline,
-                                  size: 30),
+                              icon: const Icon(PhosphorIcons.heart, size: 30),
                             ),
                           ],
                         ),
@@ -153,13 +219,17 @@ class DetailsPage extends ConsumerWidget {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: kPrimaryColor,
+                          backgroundColor: kFourthColor,
                           foregroundColor: kWhiteColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                           minimumSize: const Size(double.infinity, 50)),
-                      onPressed: () {},
+                      onPressed: () {
+                        ref
+                            .read(homeViewModelProvider.notifier)
+                            .addToCart(productEntity);
+                      },
                       child: const Text('Add to cart'),
                     ),
                   ],

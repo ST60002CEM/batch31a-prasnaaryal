@@ -28,4 +28,5 @@ class ApiEndpoints {
   static const String uploadImage = "";
   static const String getAllProducts = "$baseUrl/product/getallproducts";
   static const String getCategories = "$baseUrl/category/";
+  static const String getProfile= "$baseUrl/user/load-user";
 }

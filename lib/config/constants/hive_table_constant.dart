@@ -4,7 +4,6 @@ class HiveTableConstant {
   static const int userTableId = 0;
   static const String userBox = 'userBox';
 
-
   static const int categoryTableId = 1;
   static const String categoryBox = 'categoryBox';
 
@@ -13,6 +12,9 @@ class HiveTableConstant {
 
   static const int cartTableId = 3;
   static const String cartBox = 'cartBox';
+
+  static const int favoriteTableId = 4;
+  static const String favoriteBox = 'favoriteBox';
 
   // static const int batchTableId = 1;
   // static const String batchBox = 'batchBox';

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/core/failure/failure.dart';
 import 'package:hamropasalmobile/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:hamropasalmobile/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:hamropasalmobile/features/auth/data/model/user_profile_model.dart';
 import 'package:hamropasalmobile/features/auth/domain/entity/auth_entity.dart';
 import 'package:hamropasalmobile/features/auth/domain/repository/auth_repository.dart';
 
@@ -68,6 +69,26 @@ class AuthRepository implements IAuthRepository {
       return Status.authenticated;
     } catch (e) {
       return Status.unAuthenticated;
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserWrapper>> getProfile() async {
+    try {
+      final response = await _authRemoteDataSource.getProfile();
+      return Right(response);
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    try {
+      await _authLocalDataSource.removeToken();
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
     }
   }
 }

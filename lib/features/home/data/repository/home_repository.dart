@@ -6,6 +6,7 @@ import 'package:hamropasalmobile/features/home/data/data_source/home_remote_data
 import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/category_entity.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/favorite_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/repository/home_repository.dart';
 
@@ -70,9 +71,23 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
+  Future<Either<Failure, List<FavoriteEntity>>> getFromFavorite() async {
+    try {
+      var favoriteItems = await _homeLocalDataSource.getAllFavorite();
+      if (favoriteItems.isNotEmpty) {
+        return Right(favoriteItems.map((e) => e.toEntity()).toList());
+      }
+      return const Right([]);
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> removeFromCart(ProductEntity entity) async {
     try {
-      await _homeLocalDataSource.removeFromCart(ProductModel.fromEntity(entity));
+      await _homeLocalDataSource
+          .removeFromCart(ProductModel.fromEntity(entity));
       return const Right(null);
     } catch (e) {
       return Left(Failure(error: e.toString()));
@@ -80,11 +95,35 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<CartEntity>>> addToCart(ProductEntity entity) async {
+  Future<Either<Failure, void>> removeFromFavorite(ProductEntity entity) async {
+    try {
+      await _homeLocalDataSource
+          .removeFromFavorite(ProductModel.fromEntity(entity));
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CartEntity>>> addToCart(
+      ProductEntity entity) async {
     try {
       await _homeLocalDataSource.addToCart(ProductModel.fromEntity(entity));
       var cartItems = await _homeLocalDataSource.getAllCart();
       return Right(cartItems.map((e) => e.toEntity()).toList());
+    } catch (e) {
+      return Left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<FavoriteEntity>>> addToFavorite(
+      ProductEntity entity) async {
+    try {
+      await _homeLocalDataSource.addToFavorite(ProductModel.fromEntity(entity));
+      var favoriteItems = await _homeLocalDataSource.getAllFavorite();
+      return Right(favoriteItems.map((e) => e.toEntity()).toList());
     } catch (e) {
       return Left(Failure(error: e.toString()));
     }

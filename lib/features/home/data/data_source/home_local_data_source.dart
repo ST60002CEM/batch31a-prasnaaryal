@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/core/network/hive_service.dart';
 import 'package:hamropasalmobile/features/home/data/model/cart_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/category_model.dart';
+import 'package:hamropasalmobile/features/home/data/model/favorite_model.dart';
 import 'package:hamropasalmobile/features/home/data/model/product_model.dart';
 
 final homeLocalDataSourceProvider = Provider<HomeLocalDataSource>(
@@ -26,11 +27,16 @@ class HomeLocalDataSource {
 
   Future<CartModel> addToCart(ProductModel cartModel) =>
       _hiveService.addToCart(cartModel);
-  
+
+  Future<FavoriteModel> addToFavorite(ProductModel favoriteModel) =>
+      _hiveService.addToFavorite(favoriteModel);
+
   Future<void> removeFromCart(ProductModel cartModel) =>
       _hiveService.removeFromCart(cartModel);
-  
-  Future<List<CartModel>> getAllCart() => _hiveService.getAllCart();
-  
 
+  Future<void> removeFromFavorite(ProductModel favoriteModel) =>
+      _hiveService.removeFromFavorite(favoriteModel);
+
+  Future<List<CartModel>> getAllCart() => _hiveService.getAllCart();
+  Future<List<FavoriteModel>> getAllFavorite() => _hiveService.getAllFavorite();
 }

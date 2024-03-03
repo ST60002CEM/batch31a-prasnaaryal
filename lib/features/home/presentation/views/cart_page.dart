@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:shake/shake.dart';
 
 import '../../../../config/constants/themes.dart';
 import '../../domain/use_case/controllers/itembag_controller.dart';
@@ -19,11 +22,21 @@ class CardPage extends ConsumerWidget {
     }
 
     if (image.contains("http://") || image.contains("https://")) {
-      return Image.network(image);
+      return Image.network(
+        image,
+        height: 80,
+        width: 80,
+        fit: BoxFit.cover,
+      );
     }
     if (image.contains("data:image:") || image.contains("data:")) {
       Uint8List bytes = base64.decode(image.split(',').last);
-      return Image.memory(bytes);
+      return Image.memory(
+        bytes,
+        height: 80,
+        width: 80,
+        fit: BoxFit.cover,
+      );
     }
     return Container();
   }
@@ -45,6 +58,42 @@ class CardPage extends ConsumerWidget {
     final homeProvider = ref.watch(homeViewModelProvider);
     final cartItems = homeProvider.cartItems;
     double totalValue = _calculateTotal(cartItems);
+
+    // Add ShakeDetector to listen for phone shake
+    // ShakeDetector detector = ShakeDetector.autoStart(
+ShakeDetector detector = ShakeDetector.autoStart(
+  onPhoneShake: () async {
+    // Remove an item from the cart when phone is shaken
+    if (cartItems != null && cartItems.isNotEmpty) {
+      var lastItem = cartItems.last; // 'var' or the correct type for a cart item
+
+      // Instead of casting, check the type
+      if (lastItem is ProductEntity) {
+        // If lastItem is a ProductEntity, it's safe to use it as one
+        ProductEntity productEntity = lastItem;
+
+        // Proceed to remove the product from the cart
+        await ref
+            .read(homeViewModelProvider.notifier)
+            .removeFromCart(productEntity);
+      } else if (lastItem is CartEntity) {
+        // If it's a CartEntity, handle that case here
+        CartEntity cartEntity = lastItem;
+        // You need to implement logic to handle a CartEntity
+        // For example, if you need to convert it to a ProductEntity or handle differently
+        // ...
+      } else {
+        // Handle any other types, or do nothing if lastItem is expected to be only these types
+        print('Last item is neither ProductEntity nor CartEntity');
+      }
+    }
+  },
+  shakeSlopTimeMS: 500,
+  shakeCountResetTime: 3000,
+  shakeThresholdGravity: 2.7,
+);
+
+
 
     return Scaffold(
       appBar: AppBar(
@@ -94,12 +143,13 @@ class CardPage extends ConsumerWidget {
                                       cartItems?[index].productModel.name ?? "",
                                       style: ThemeConstant.kCardTitle),
                                   const Gap(6),
-                                  Text(
-                                      cartItems?[index]
-                                              .productModel
-                                              .description ??
-                                          "",
-                                      style: ThemeConstant.kBodyText),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                        cartItems?[index].count.toString() ??
+                                            "",
+                                        style: ThemeConstant.kBodyText),
+                                  ),
                                   const Gap(4),
                                   Text(
                                     'Rs ${cartItems?[index].productModel.price}',
@@ -109,6 +159,15 @@ class CardPage extends ConsumerWidget {
                                 ],
                               ),
                             ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.cyan),
+                            onPressed: () {
+                              ref
+                                  .read(homeViewModelProvider.notifier)
+                                  .removeFromCart(
+                                      cartItems![index].productModel);
+                            },
                           ),
                         ],
                       )),
@@ -172,9 +231,53 @@ class CardPage extends ConsumerWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: KhaltiButton(
+                      config: PaymentConfig(
+                        amount: totalValue.toInt() *
+                            100, // Amount should be in paisa
+                        productIdentity: 'dell-g5-g5510-2021',
+                        productName: 'Dell G5 G5510 2021',
+                        productUrl: 'https://www.khalti.com/#/bazaar',
+                        additionalData: {
+                          // Not mandatory; can be used for reporting purpose
+                          'vendor': 'Khalti Bazaar',
+                        },
+                        mobile:
+                            '9800000001', // Not mandatory; can be used to fill mobile number field
+                        mobileReadOnly:
+                            true, // Not mandatory; makes the mobile field not editable
+                      ),
+                      preferences: [
+                        // Not providing this will enable all the payment methods.
+                        PaymentPreference.khalti,
+                        PaymentPreference.eBanking,
+                      ],
+                      onSuccess: (successModel) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Payment Done'),
+                          ),
+                        ); // Perform Server Verification
+                      },
+                      onFailure: (failureModel) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Payment Failed'),
+                          ),
+                        ); //
+                        // What to do on failure?
+                      },
+                      onCancel: () {
+                        // User manually cancelled the transaction
+                      },
+                    ),
+                  ),
                 ],
               ),
-            ))
+            )),
       ]),
     );
   }

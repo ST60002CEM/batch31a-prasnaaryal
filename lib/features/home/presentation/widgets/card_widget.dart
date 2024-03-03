@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/config/constants/themes.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
+import 'package:hamropasalmobile/features/home/domain/entity/favorite_entity.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/product_entity.dart';
 import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
 import 'package:hamropasalmobile/features/home/presentation/views/detail_page.dart';
@@ -13,10 +14,13 @@ import 'package:hamropasalmobile/features/home/presentation/views/detail_page.da
 class ProductCardWidget extends ConsumerWidget {
   final ProductEntity product;
   final List<CartEntity> cartItes;
+  final List<FavoriteEntity> favoriteItes;
+
   const ProductCardWidget({
     super.key,
     required this.product,
     required this.cartItes,
+    required this.favoriteItes,
   });
 
   Widget _generateProductImage(String? image) {
@@ -54,6 +58,20 @@ class ProductCardWidget extends ConsumerWidget {
     }
   }
 
+  FavoriteEntity? _getFavoriteEntity(ProductEntity productModel) {
+    if (favoriteItes.any((item) =>
+        item.productModel.name == productModel.name &&
+        item.productModel.price == productModel.price &&
+        item.productModel.category == productModel.category)) {
+      return favoriteItes.firstWhere((item) =>
+          item.productModel.name == productModel.name &&
+          item.productModel.price == productModel.price &&
+          item.productModel.category == productModel.category);
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
@@ -64,6 +82,7 @@ class ProductCardWidget extends ConsumerWidget {
             builder: (context) => DetailsPage(
               productEntity: product,
               cartEntity: cartItes,
+              favoriteEntity: favoriteItes,
             ),
           ),
         );
@@ -108,31 +127,55 @@ class ProductCardWidget extends ConsumerWidget {
                       ),
                       Text(product.description ?? " ",
                           style: ThemeConstant.kBodyText),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Rs${product.price}',
-                              style: ThemeConstant.kCardTitle),
-                          IconButton(
-                            onPressed: () {
-                              if (_getCartEntity(product) != null) {
-                                ref
-                                    .read(homeViewModelProvider.notifier)
-                                    .removeFromCart(product);
-                              } else {
-                                ref
-                                    .read(homeViewModelProvider.notifier)
-                                    .addToCart(product);
-                              }
-                            },
-                            icon: Icon(
-                              _getCartEntity(product) != null
-                                  ? Icons.check_circle
-                                  : Icons.add_circle,
-                              size: 30,
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Rs${product.price}',
+                                style: ThemeConstant.kCardTitle),
+                            // IconButton(
+                            //   onPressed: () {
+                            //     if (_getFavoriteEntity(product) != null) {
+                            //       ref
+                            //           .read(homeViewModelProvider.notifier)
+                            //           .removeFromFavorite(product);
+                            //     } else {
+                            //       ref
+                            //           .read(homeViewModelProvider.notifier)
+                            //           .addToFavorite(product);
+                            //     }
+                            //   },
+                            //   icon: Icon(
+                            //     _getFavoriteEntity(product) != null
+                            //         ? Icons.favorite
+                            //         : Icons.favorite_border,
+                            //     size: 30,
+                            //     color:
+                            //         Colors.red, // Customize the color as needed
+                            //   ),
+                            // ),
+                            IconButton(
+                              onPressed: () {
+                                if (_getCartEntity(product) != null) {
+                                  ref
+                                      .read(homeViewModelProvider.notifier)
+                                      .removeFromCart(product);
+                                } else {
+                                  ref
+                                      .read(homeViewModelProvider.notifier)
+                                      .addToCart(product);
+                                }
+                              },
+                              icon: Icon(
+                                _getCartEntity(product) != null
+                                    ? Icons.check_circle
+                                    : Icons.add_circle,
+                                size: 30,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     ],
                   ),

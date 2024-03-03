@@ -22,4 +22,9 @@ class AuthLocalDataSource {
     }
     throw Exception("User is not authenticated");
   }
+
+  Future<void> removeToken() async {
+    final sharedPref = await _getSharedPreferences();
+    await sharedPref.remove("access_token");
+  }
 }

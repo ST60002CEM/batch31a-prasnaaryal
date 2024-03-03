@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/config/constants/api_endpoints.dart';
 import 'package:hamropasalmobile/core/network/http_service.dart';
 import 'package:hamropasalmobile/features/auth/data/model/auth_api_model.dart';
+import 'package:hamropasalmobile/features/auth/data/model/user_profile_model.dart';
 import 'package:hamropasalmobile/features/auth/domain/entity/auth_entity.dart';
 
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(
@@ -47,5 +48,15 @@ class AuthRemoteDataSource {
     final response = await _dio.post(ApiEndpoints.login,
         data: json.encode({"email": email, "password": password}));
     return response.data['accessToken'];
+  }
+
+  Future<UserWrapper> getProfile() async {
+    final response = await _dio.get(ApiEndpoints.getProfile);
+    print(response.data);
+    if (response.statusCode != 200) {
+      print(response.data);
+// return UserWrapper.fromJson(response.d);
+    }
+    return UserWrapper.fromJson(response.data);
   }
 }
