@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/config/router/app_route.dart';
 import 'package:hamropasalmobile/core/common/snackbar/my_snackbar.dart';
 import 'package:hamropasalmobile/features/auth/presentation/auth_viewmodel/auth_viewmodel.dart';
@@ -15,7 +16,7 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'sussyghiu@gmail.com');
+  final _emailController = TextEditingController(text: 'prasna@gmail.com');
   final _passwordController = TextEditingController(text: 'Password123\$');
 
   final _gap = const SizedBox(height: 8);
@@ -37,16 +38,28 @@ class _LoginViewState extends ConsumerState<LoginView> {
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Add your logo here
+                    Image.asset(
+                      'assets/images/logo.png', // Replace with the path to your logo image
+                      width: 150, // Adjust the width as needed
+                      height: 150, // Adjust the height as needed
+                    ),
                     _gap,
                     TextFormField(
                       key: const ValueKey('username'),
                       controller: _emailController,
                       decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.black,
+                          size: 22.0,
+                        ),
                         border: OutlineInputBorder(),
-                        labelText: 'email',
+                        labelText: 'Email',
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -61,6 +74,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       controller: _passwordController,
                       obscureText: isObscure,
                       decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          size: 22.0,
+                          color: Colors.black,
+                        ),
+                        border: OutlineInputBorder(),
                         labelText: 'Password',
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -83,7 +102,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     _gap,
                     ElevatedButton(
                       onPressed: () async {
-                        // Navigator.pushNamed(context, AppRoute.homeRoute);
                         if (_formKey.currentState!.validate()) {
                           await ref
                               .read(authViewModelProvider.notifier)
@@ -93,6 +111,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                 _passwordController.text,
                               );
                         }
+                        Navigator.pushNamed(context, AppRoute.homeRoute);
                       },
                       child: const SizedBox(
                         height: 50,
@@ -108,24 +127,32 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    ElevatedButton(
+                    Gap(8),
+                    GestureDetector(
                       key: const ValueKey('registerButton'),
-                      onPressed: () {
+                      onTap: () {
                         Navigator.pushNamed(context, AppRoute.registerRoute);
                       },
-                      child: const SizedBox(
-                        height: 50,
-                        child: Center(
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Brand Bold',
-                            ),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Dont have an account ? ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade800,
                           ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Sign up',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.blue,
+                                fontFamily: 'Brand Bold',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
