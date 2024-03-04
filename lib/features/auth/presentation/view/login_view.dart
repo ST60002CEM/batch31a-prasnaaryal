@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -16,7 +14,7 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'prasna@gmail.com');
+  final _emailController = TextEditingController(text: 'prasnaworks@gmail.com');
   final _passwordController = TextEditingController(text: 'Password123\$');
 
   final _gap = const SizedBox(height: 8);

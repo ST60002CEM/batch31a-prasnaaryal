@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,18 +33,16 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   Future<void> uploadImage(File? file) async {
     state = state.copyWith(isLoading: true);
-    var data = await _uploadImageUsecase.uploadProfilePicture(file!);
-    data.fold(
-      (l) {
-        state = state.copyWith(isLoading: false, error: l.error);
-      },
-      (imageName) {
-        state = state.copyWith(
-          isLoading: false,
-          error: null,
-          imageName: imageName,
-        );
-      },
+    // Read the file as bytes
+    List<int> imageBytes = await file!.readAsBytes();
+
+    // Encode the image bytes to base64
+    String base64Image = base64Encode(imageBytes);
+
+    state = state.copyWith(
+      isLoading: false,
+      error: null,
+      imageName: base64Image,
     );
   }
 

@@ -11,7 +11,6 @@ import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:shake/shake.dart';
 
 import '../../../../config/constants/themes.dart';
-import '../../domain/use_case/controllers/itembag_controller.dart';
 
 class CardPage extends ConsumerWidget {
   const CardPage({super.key});
@@ -61,37 +60,43 @@ class CardPage extends ConsumerWidget {
 
     // Add ShakeDetector to listen for phone shake
     // ShakeDetector detector = ShakeDetector.autoStart(
-ShakeDetector detector = ShakeDetector.autoStart(
-  onPhoneShake: () async {
-    // Remove an item from the cart when phone is shaken
-    if (cartItems != null && cartItems.isNotEmpty) {
-      var lastItem = cartItems.last; // 'var' or the correct type for a cart item
+    ShakeDetector detector = ShakeDetector.autoStart(
+      onPhoneShake: () async {
+        print("PHone is shaken");
+        // Remove an item from the cart when phone is shaken
+        if (cartItems != null && cartItems.isNotEmpty) {
+          ref
+              .read(homeViewModelProvider.notifier)
+              .removeFromCart(cartItems[0].productModel);
+          // var lastItem =
+          //     cartItems.last; // 'var' or the correct type for a cart item
 
-      // Instead of casting, check the type
-      if (lastItem is ProductEntity) {
-        // If lastItem is a ProductEntity, it's safe to use it as one
-        ProductEntity productEntity = lastItem.productModel;
+          // // Instead of casting, check the type
+          // if (lastItem is ProductEntity) {
+          //   // If lastItem is a ProductEntity, it's safe to use it as one
+          //   ProductEntity productEntity = lastItem.productModel;
 
-        // Proceed to remove the product from the cart
-        await ref
-            .read(homeViewModelProvider.notifier)
-            .removeFromCart(productEntity);
-      } else if (lastItem is CartEntity) {
-        // If it's a CartEntity, handle that case here
-        CartEntity cartEntity = lastItem;
-        // You need to implement logic to handle a CartEntity
-        // For example, if you need to convert it to a ProductEntity or handle differently
-        // ...
-      } else {
-        // Handle any other types, or do nothing if lastItem is expected to be only these types
-        print('Last item is neither ProductEntity nor CartEntity');
-      }
-    }
-  },
-  shakeSlopTimeMS: 500,
-  shakeCountResetTime: 3000,
-  shakeThresholdGravity: 2.7,
-);
+          //   // Proceed to remove the product from the cart
+          //   await ref
+          //       .read(homeViewModelProvider.notifier)
+          //       .removeFromCart(productEntity);
+          // } else if (lastItem is CartEntity) {
+          //   // If it's a CartEntity, handle that case here
+          //   CartEntity cartEntity = lastItem;
+          //   // You need to implement logic to handle a CartEntity
+          //   // For example, if you need to convert it to a ProductEntity or handle differently
+          //   // ...
+          // } else {
+          //   // Handle any other types, or do nothing if lastItem is expected to be only these types
+          //   print('Last item is neither ProductEntity nor CartEntity');
+          // }
+        }
+      },
+      // minimumShakeCount: 1,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 2.7,
+    );
 
     return Scaffold(
       appBar: AppBar(

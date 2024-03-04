@@ -47,7 +47,7 @@ class _HomePage extends ConsumerState<HomePage> {
 
       setState(() {
         _proximityValue = event.proximity;
-        if (_proximityValue >= 4) {
+        if (_proximityValue == 0) {
           _showLogoutConfirmation();
         }
       });
@@ -273,9 +273,8 @@ class _HomePage extends ConsumerState<HomePage> {
                       TextButton(
                         child: const Text('yes'),
                         onPressed: () {
-                         
                           Navigator.of(ctx).pop();
-                          
+
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) => LoginView()));
                         },

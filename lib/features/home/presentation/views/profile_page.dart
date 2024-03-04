@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
 import 'package:hamropasalmobile/features/home/presentation/state/home_state.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../auth/presentation/view/login_view.dart';
 
@@ -126,13 +127,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                               .logOut()
                               .then(
                                 (value) => {
-                                  Navigator.of(ctx).pop(),
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const LoginView(),
-                                    ),
-                                  )
+                                 Navigator.of(ctx).pop(),
+                                  PersistentNavBarNavigator.pushNewScreen(
+  context,
+  screen: LoginView(),
+  withNavBar: false,
+)
+                                  // Navigator.of(ctx).pop(),
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (BuildContext context) =>
+                                  //         const LoginView(),
+                                  //   ),
+                                  // )
                                 },
                               );
                         },

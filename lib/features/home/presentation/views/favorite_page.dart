@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hamropasalmobile/features/home/domain/entity/cart_entity.dart';
 import 'package:hamropasalmobile/features/home/presentation/home_view_model/home_view_model.dart';
-import 'package:hamropasalmobile/features/home/presentation/views/sensor_screen.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../../../config/constants/themes.dart';
@@ -70,7 +69,7 @@ class FavoritePage extends ConsumerWidget {
         ],
       ),
       body: Column(children: [
-        const SizedBox(height: 200, child: Sensor()),
+        // const SizedBox(height: 200, child: Sensor()),
         Expanded(
           child: Container(
             padding: const EdgeInsets.all(20),

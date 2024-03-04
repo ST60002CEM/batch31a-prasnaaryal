@@ -53,7 +53,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-   
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // if (isConnected == ConnectivityStatus.isDisconnected) {
       //   showSnackBar(

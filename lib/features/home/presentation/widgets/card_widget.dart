@@ -126,6 +126,8 @@ class ProductCardWidget extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(product.description ?? " ",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                           style: ThemeConstant.kBodyText),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
