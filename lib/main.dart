@@ -6,7 +6,7 @@ import 'package:khalti_flutter/khalti_flutter.dart';
 
 import 'core/app.dart';
 
-const String testPublicKey = 'test_secret_key_f9245313f6914fa28328c95aac956871';
+const String testPublicKey = 'test_public_key_dc74e0fd57cb46cd93832aee0a507256';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);

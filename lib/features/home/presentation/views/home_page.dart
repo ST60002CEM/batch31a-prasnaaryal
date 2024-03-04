@@ -47,7 +47,7 @@ class _HomePage extends ConsumerState<HomePage> {
 
       setState(() {
         _proximityValue = event.proximity;
-        if (_proximityValue >= 4) {
+        if (_proximityValue == 0) {
           _showLogoutConfirmation();
         }
       });
