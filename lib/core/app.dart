@@ -7,6 +7,7 @@ import 'package:hamropasalmobile/features/auth/domain/repository/auth_repository
 import 'package:hamropasalmobile/features/auth/presentation/view/login_view.dart';
 import 'package:hamropasalmobile/features/home/presentation/views/bottom_tab_bar.dart';
 import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/splash_screen.dart';
 import 'package:khalti_flutter/localization/khalti_localizations.dart';
 
 import '../features/auth/domain/use_case/auth_status_usecase.dart';
@@ -64,6 +65,8 @@ class App extends ConsumerWidget {
         return const LoginView();
       case AppRoute.homeRoute:
         return const PersistentBottomNavigationBar();
+      case AppRoute.splashRoute: // Add this case
+        return const Splash();
       default:
         return const Scaffold();
     }
@@ -75,7 +78,7 @@ class App extends ConsumerWidget {
       case Status.authenticated:
         return AppRoute.homeRoute;
       case Status.unAuthenticated:
-        return AppRoute.loginRoute;
+        return AppRoute.splashRoute;
       default:
         return AppRoute.loginRoute;
     }

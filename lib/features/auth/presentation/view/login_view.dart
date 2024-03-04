@@ -43,8 +43,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     // Add your logo here
                     Image.asset(
                       'assets/images/logo.png', // Replace with the path to your logo image
-                      width: 150, // Adjust the width as needed
-                      height: 150, // Adjust the height as needed
+                      width: 200, // Adjust the width as needed
+                      height: 200, // Adjust the height as needed
                     ),
                     _gap,
                     TextFormField(

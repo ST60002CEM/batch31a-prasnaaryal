@@ -1,6 +1,7 @@
 import 'package:hamropasalmobile/features/auth/presentation/view/login_view.dart';
 import 'package:hamropasalmobile/features/auth/presentation/view/register_view.dart';
 import 'package:hamropasalmobile/features/home/presentation/views/home_page.dart';
+import 'package:hamropasalmobile/features/home/presentation/views/splash_screen.dart';
 
 import '../../features/home/presentation/views/favorite_page.dart';
 
@@ -18,7 +19,7 @@ class AppRoute {
 
   static getApplicationRoute() {
     return {
-      // splashRoute: (context) => const SplashPage(),
+      splashRoute: (context) => const Splash(),
       loginRoute: (context) => const LoginView(),
       homeRoute: (context) => const HomePage(),
       registerRoute: (context) => const RegisterView(),

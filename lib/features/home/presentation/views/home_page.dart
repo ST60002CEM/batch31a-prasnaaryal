@@ -47,7 +47,7 @@ class _HomePage extends ConsumerState<HomePage> {
 
       setState(() {
         _proximityValue = event.proximity;
-        if (_proximityValue == 0) {
+        if (_proximityValue >= 4) {
           _showLogoutConfirmation();
         }
       });
@@ -107,10 +107,14 @@ class _HomePage extends ConsumerState<HomePage> {
       appBar: AppBar(
         backgroundColor: kSecondaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: SvgPicture.asset(
-          'assets/general/store_brand_white.svg',
-          colorFilter: const ColorFilter.mode(kWhiteColor, BlendMode.srcIn),
-          width: 180,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/homepic.png',
+              width: 180,
+            ),
+            // Add some spacing between the home picture and drawer icon
+          ],
         ),
         leading: Builder(
           builder: (BuildContext context) {
